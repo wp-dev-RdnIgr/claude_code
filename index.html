@@ -3,29 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KATYA — Birthday Edition</title>
+    <title>KATYA — Birthday Edition 2026</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230A0A0A'/><text x='50' y='68' font-family='Georgia,serif' font-size='56' font-weight='bold' fill='%23C9A96E' text-anchor='middle'>K</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --color-bg: #FAF7F4;
-            --color-bg-warm: #F5EDE6;
-            --color-bg-dark: #2D2926;
-            --color-bg-cream: #F0EAE4;
-            --color-card: #FFFFFF;
-            --color-blush: #D4A0A7;
-            --color-rose: #C48B91;
-            --color-rose-deep: #A67178;
-            --color-gold: #B8977E;
-            --color-gold-light: #D4C4B0;
-            --color-accent: #9B6B6B;
-            --color-text: #2D2926;
-            --color-text-soft: #6B6058;
-            --color-text-muted: #9B9088;
-            --color-border: #E8DDD4;
-            --color-surface: #F0EAE4;
-            --serif: 'Playfair Display', 'Cormorant Garamond', 'Georgia', serif;
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --gold: #C9A96E;
+            --gold-light: #E0D1B8;
+            --gold-dim: rgba(201,169,110,0.15);
+            --blue: #A8D0E6;
+            --cream: #F5F0EA;
+            --surface: #F2EFEB;
+            --text: #1A1A1A;
+            --text-soft: #555;
+            --text-muted: #999;
+            --border: #E5E0DA;
+            --serif: 'Playfair Display', 'Georgia', serif;
             --serif-body: 'Cormorant Garamond', 'Georgia', serif;
             --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
@@ -35,1166 +32,579 @@
 
         body {
             font-family: var(--sans);
-            background: var(--color-bg);
-            color: var(--color-text);
+            background: var(--black);
+            color: var(--text);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* === Scroll Reveal === */
+        img { display: block; max-width: 100%; }
+
+        /* Reveal */
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.9s cubic-bezier(0.25, 0, 0.25, 1), transform 0.9s cubic-bezier(0.25, 0, 0.25, 1);
+            transform: translateY(36px);
+            transition: opacity 0.8s cubic-bezier(.25,0,.25,1), transform 0.8s cubic-bezier(.25,0,.25,1);
         }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .reveal-delay-1 { transition-delay: 0.15s; }
-        .reveal-delay-2 { transition-delay: 0.3s; }
-        .reveal-delay-3 { transition-delay: 0.45s; }
-        .reveal-delay-4 { transition-delay: 0.6s; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-d1 { transition-delay: .12s; }
+        .reveal-d2 { transition-delay: .24s; }
+        .reveal-d3 { transition-delay: .36s; }
+        .reveal-d4 { transition-delay: .48s; }
 
-        /* === Floating Petals === */
-        .petal {
-            position: fixed;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0;
-            animation: petalFall linear infinite;
-        }
-        .petal svg { width: 100%; height: 100%; }
-
-        @keyframes petalFall {
-            0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
-            8% { opacity: 0.3; }
-            50% { transform: translateY(50vh) rotate(180deg) translateX(30px); }
-            92% { opacity: 0.2; }
-            100% { transform: translateY(105vh) rotate(360deg) translateX(-20px); opacity: 0; }
-        }
-
-        /* === Page Navigation Dots === */
+        /* Page Nav */
         .page-nav {
-            position: fixed;
-            right: 24px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 50;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            position: fixed; right: 20px; top: 50%; transform: translateY(-50%);
+            z-index: 90; display: flex; flex-direction: column; gap: 10px;
         }
         .page-nav-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--color-gold-light);
-            border: none;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            padding: 0;
+            width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--gold-light);
+            background: transparent; cursor: pointer; transition: all .3s; padding: 0;
         }
-        .page-nav-dot.active {
-            background: var(--color-rose);
-            transform: scale(1.3);
-        }
-        .page-nav-dot:hover {
-            background: var(--color-blush);
-            transform: scale(1.2);
-        }
+        .page-nav-dot.active { background: var(--gold); border-color: var(--gold); transform: scale(1.4); }
+        .page-nav-dot:hover { background: var(--gold-light); }
 
-        /* =============================================
-           PAGE 1 — MAGAZINE COVER
-           ============================================= */
+        /* ============================================
+           1. COVER
+           ============================================ */
         .cover {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-            background: var(--color-bg);
+            min-height: 100vh; display: flex; flex-direction: column;
+            position: relative; overflow: hidden; background: var(--black);
         }
-
-        .cover-masthead {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 28px 48px;
-            border-bottom: 1px solid var(--color-border);
-            position: relative;
-            z-index: 2;
+        .cover-bg {
+            position: absolute; inset: 0; z-index: 0;
         }
-        .cover-masthead-left,
-        .cover-masthead-right {
-            font-family: var(--sans);
-            font-size: 10px;
-            font-weight: 500;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
+        .cover-bg img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: brightness(0.55) saturate(0.85) contrast(1.1);
         }
-        .cover-masthead-center {
-            font-family: var(--serif);
-            font-size: 14px;
-            font-weight: 400;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            color: var(--color-text-soft);
+        .cover-top {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 28px 48px; position: relative; z-index: 2;
+            border-bottom: 1px solid rgba(201,169,110,0.2);
         }
-
-        .cover-body {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 40px;
+        .cover-top span {
+            font-family: var(--sans); font-size: 10px; font-weight: 500;
+            letter-spacing: 3px; text-transform: uppercase; color: var(--gold-light);
         }
-
-        .cover-image-bg {
-            position: absolute;
-            inset: 40px;
-            overflow: hidden;
+        .cover-center {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            position: relative; z-index: 2; padding: 40px;
         }
-        .cover-image-bg img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: saturate(0.7) brightness(0.95) contrast(1.05);
-        }
-        .cover-image-bg::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                to bottom,
-                rgba(250,247,244,0.3) 0%,
-                rgba(250,247,244,0.05) 30%,
-                rgba(250,247,244,0.05) 50%,
-                rgba(250,247,244,0.6) 85%,
-                rgba(250,247,244,0.95) 100%
-            );
-        }
-
-        .cover-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            max-width: 800px;
-        }
-
         .cover-issue {
-            font-family: var(--sans);
-            font-size: 10px;
-            font-weight: 500;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--color-rose);
+            font-family: var(--sans); font-size: 10px; font-weight: 500;
+            letter-spacing: 5px; text-transform: uppercase; color: var(--gold);
             margin-bottom: 24px;
         }
-
         .cover-title {
-            font-family: var(--serif);
-            font-size: clamp(72px, 15vw, 180px);
-            font-weight: 700;
-            line-height: 0.9;
-            color: var(--color-text);
-            letter-spacing: -3px;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 40px rgba(250,247,244,0.8);
+            font-family: var(--serif); font-size: clamp(80px, 18vw, 220px);
+            font-weight: 800; line-height: 0.85; color: var(--white);
+            letter-spacing: -4px; margin-bottom: 20px; text-align: center;
+            text-shadow: 0 4px 60px rgba(0,0,0,0.5);
         }
-
         .cover-tagline {
-            font-family: var(--serif-body);
-            font-size: clamp(18px, 3vw, 28px);
-            font-weight: 300;
-            font-style: italic;
-            color: var(--color-text-soft);
-            letter-spacing: 1px;
-            text-shadow: 0 1px 20px rgba(250,247,244,0.8);
+            font-family: var(--serif-body); font-size: clamp(18px, 3vw, 28px);
+            font-weight: 300; font-style: italic; color: var(--gold-light);
+            letter-spacing: 1px; text-align: center;
+        }
+        .cover-bottom {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            padding: 0 48px 32px; position: relative; z-index: 2;
+        }
+        .cover-hints {
+            display: flex; gap: 48px;
+        }
+        .cover-hint-item { text-align: left; }
+        .cover-hint-label {
+            font-family: var(--sans); font-size: 9px; font-weight: 500;
+            letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 3px;
+        }
+        .cover-hint-text {
+            font-family: var(--serif-body); font-size: 15px; font-style: italic; color: rgba(250,250,250,0.6);
+        }
+        .cover-scroll {
+            font-family: var(--sans); font-size: 9px; letter-spacing: 3px;
+            text-transform: uppercase; color: var(--gold-light);
+            display: flex; align-items: center; gap: 8px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        .cover-scroll::after {
+            content: ''; display: block; width: 24px; height: 1px; background: var(--gold-light);
+        }
+        @keyframes bounce {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
         }
 
-        .cover-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            padding: 0 48px 36px;
-            position: relative;
-            z-index: 2;
+        /* ============================================
+           2. INTRO / EDITOR'S LETTER
+           ============================================ */
+        .intro {
+            min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; padding: 100px 48px;
+            background: var(--white); position: relative;
+        }
+        .intro-grid {
+            max-width: 1100px; margin: 0 auto; width: 100%;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center;
+        }
+        .intro-label {
+            font-family: var(--sans); font-size: 9px; font-weight: 500;
+            letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 28px;
+        }
+        .intro-title {
+            font-family: var(--serif); font-size: clamp(36px, 5vw, 56px);
+            font-weight: 700; line-height: 1.1; color: var(--text); margin-bottom: 12px;
+        }
+        .intro-title em { font-style: italic; color: var(--gold); }
+        .intro-line { width: 48px; height: 1.5px; background: var(--gold); margin: 24px 0; }
+        .intro-dropcap {
+            font-family: var(--serif); font-size: 68px; font-weight: 700;
+            float: left; line-height: 0.8; margin-right: 12px; margin-top: 6px; color: var(--gold);
+        }
+        .intro-text {
+            font-family: var(--serif-body); font-size: 19px; font-weight: 400;
+            line-height: 1.85; color: var(--text-soft);
+        }
+        .intro-text p { margin-bottom: 18px; }
+        .intro-text strong { color: var(--text); font-weight: 600; }
+        .intro-sign {
+            font-family: var(--serif-body); font-size: 20px; font-style: italic;
+            color: var(--text-muted); margin-top: 8px;
+        }
+        .intro-photo { position: relative; }
+        .intro-photo-frame {
+            aspect-ratio: 3/4; overflow: hidden; position: relative;
+        }
+        .intro-photo-frame img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform .7s cubic-bezier(.25,0,.25,1);
+        }
+        .intro-photo-frame:hover img { transform: scale(1.03); }
+        .intro-photo-cap {
+            font-family: var(--sans); font-size: 10px; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--text-muted); margin-top: 14px; text-align: right;
         }
 
-        .cover-headlines {
-            display: flex;
-            gap: 48px;
+        /* ============================================
+           3. FULL-WIDTH BANNER
+           ============================================ */
+        .banner-section {
+            width: 100%; overflow: hidden; background: var(--black);
         }
-        .cover-headline-item {
-            text-align: left;
-        }
-        .cover-headline-label {
-            font-family: var(--sans);
-            font-size: 9px;
-            font-weight: 500;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
-            margin-bottom: 4px;
-        }
-        .cover-headline-text {
-            font-family: var(--serif-body);
-            font-size: 16px;
-            font-weight: 400;
-            font-style: italic;
-            color: var(--color-text-soft);
+        .banner-section img {
+            width: 100%; height: auto; display: block;
         }
 
-        .cover-scroll-hint {
-            font-family: var(--sans);
-            font-size: 9px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            animation: gentleBounce 2s ease-in-out infinite;
+        /* ============================================
+           4. LOOKBOOK (10 photos — masonry grid)
+           ============================================ */
+        .lookbook {
+            padding: 100px 48px; background: var(--surface);
         }
-        .cover-scroll-hint::after {
-            content: '';
-            display: block;
-            width: 20px;
-            height: 1px;
-            background: var(--color-text-muted);
+        .lookbook-header {
+            text-align: center; margin-bottom: 56px;
         }
-
-        @keyframes gentleBounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(4px); }
+        .lookbook-label {
+            font-family: var(--sans); font-size: 9px; font-weight: 500;
+            letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
         }
-
-        /* =============================================
-           PAGE 2 — EDITOR'S LETTER
-           ============================================= */
-        .editors-letter {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 100px 48px;
-            position: relative;
-            background: var(--color-card);
+        .lookbook-title {
+            font-family: var(--serif); font-size: clamp(36px, 6vw, 64px);
+            font-weight: 700; color: var(--text);
+        }
+        .lookbook-title em { font-style: italic; color: var(--gold); }
+        .lookbook-sub {
+            font-family: var(--serif-body); font-size: 18px; font-style: italic;
+            color: var(--text-muted); margin-top: 8px;
         }
 
-        .editors-letter::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: var(--color-border);
-        }
-
-        .el-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            width: 100%;
+        .lb-grid {
+            max-width: 1300px; margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 200px;
+            gap: 12px;
         }
-
-        .el-left {
-            position: relative;
+        .lb-item {
+            overflow: hidden; position: relative; cursor: pointer;
         }
+        .lb-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform .6s cubic-bezier(.25,0,.25,1), filter .4s;
+            filter: saturate(0.85);
+        }
+        .lb-item:hover img { transform: scale(1.05); filter: saturate(1); }
 
-        .el-page-label {
-            font-family: var(--sans);
-            font-size: 9px;
-            font-weight: 500;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--color-blush);
+        /* Grid sizing — asymmetric masonry */
+        .lb-item:nth-child(1) { grid-column: span 2; grid-row: span 3; }
+        .lb-item:nth-child(2) { grid-column: span 1; grid-row: span 2; }
+        .lb-item:nth-child(3) { grid-column: span 1; grid-row: span 2; }
+        .lb-item:nth-child(4) { grid-column: span 1; grid-row: span 3; }
+        .lb-item:nth-child(5) { grid-column: span 1; grid-row: span 2; }
+        .lb-item:nth-child(6) { grid-column: span 1; grid-row: span 2; }
+        .lb-item:nth-child(7) { grid-column: span 1; grid-row: span 3; }
+        .lb-item:nth-child(8) { grid-column: span 1; grid-row: span 2; }
+        .lb-item:nth-child(9) { grid-column: span 1; grid-row: span 2; }
+        .lb-item:nth-child(10) { grid-column: span 1; grid-row: span 2; }
+
+        /* ============================================
+           5. HORIZONTAL GALLERY (5 landscape photos)
+           ============================================ */
+        .hgallery {
+            background: var(--black); padding: 60px 0; overflow: hidden;
+        }
+        .hgallery-label {
+            font-family: var(--sans); font-size: 9px; font-weight: 500;
+            letter-spacing: 4px; text-transform: uppercase; color: var(--gold);
+            text-align: center; margin-bottom: 32px;
+        }
+        .hgallery-track {
+            display: flex; gap: 16px; padding: 0 48px;
+            overflow-x: auto; scroll-snap-type: x mandatory;
+            scrollbar-width: none; -ms-overflow-style: none;
+            cursor: grab;
+        }
+        .hgallery-track::-webkit-scrollbar { display: none; }
+        .hgallery-track:active { cursor: grabbing; }
+        .hgallery-item {
+            flex: 0 0 auto; width: 60vw; min-width: 360px; max-width: 800px;
+            scroll-snap-align: center; overflow: hidden;
+        }
+        .hgallery-item img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            transition: transform .5s;
+        }
+        .hgallery-item:hover img { transform: scale(1.03); }
+
+        /* ============================================
+           6. DARK QUOTE
+           ============================================ */
+        .dark-quote {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden; background: var(--black);
+        }
+        .dark-quote-bg {
+            position: absolute; inset: 0;
+        }
+        .dark-quote-bg img {
+            width: 100%; height: 100%; object-fit: cover;
+            opacity: 0.25; filter: saturate(0.4) contrast(1.1);
+        }
+        .dark-quote-content {
+            position: relative; z-index: 2; text-align: center;
+            padding: 48px; max-width: 800px;
+        }
+        .dq-deco {
+            font-family: var(--serif); font-size: 120px; font-weight: 300;
+            color: var(--gold); opacity: 0.35; line-height: 0.5; margin-bottom: 20px;
+        }
+        .dq-text {
+            font-family: var(--serif); font-size: clamp(26px, 4.5vw, 48px);
+            font-weight: 400; font-style: italic; color: var(--white); line-height: 1.45;
             margin-bottom: 32px;
         }
-
-        .el-title {
-            font-family: var(--serif);
-            font-size: clamp(36px, 5vw, 56px);
-            font-weight: 600;
-            line-height: 1.1;
-            color: var(--color-text);
-            margin-bottom: 12px;
-        }
-        .el-title em {
-            font-style: italic;
-            color: var(--color-rose);
+        .dq-line { width: 48px; height: 1px; background: var(--gold); margin: 0 auto 24px; }
+        .dq-author {
+            font-family: var(--sans); font-size: 11px; font-weight: 500;
+            letter-spacing: 4px; text-transform: uppercase; color: var(--gold-light);
         }
 
-        .el-line {
-            width: 48px;
-            height: 1.5px;
-            background: var(--color-gold);
-            margin: 28px 0;
+        /* ============================================
+           7. STYLE FILE (4 photos)
+           ============================================ */
+        .style-file {
+            padding: 100px 48px; background: var(--white);
+        }
+        .sf-header {
+            text-align: center; margin-bottom: 56px;
+        }
+        .sf-label {
+            font-family: var(--sans); font-size: 9px; font-weight: 500;
+            letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+        }
+        .sf-title {
+            font-family: var(--serif); font-size: clamp(32px, 5vw, 52px);
+            font-weight: 700; color: var(--text);
+        }
+        .sf-title em { font-style: italic; color: var(--gold); }
+        .sf-sub {
+            font-family: var(--serif-body); font-size: 18px; font-style: italic;
+            color: var(--text-muted); margin-top: 8px;
+        }
+        .sf-grid {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; gap: 16px;
+        }
+        .sf-main {
+            width: 100%; overflow: hidden;
+        }
+        .sf-main img {
+            width: 100%; height: auto; display: block;
+            transition: transform .6s cubic-bezier(.25,0,.25,1);
+        }
+        .sf-main:hover img { transform: scale(1.02); }
+        .sf-trio {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+        }
+        .sf-trio-item {
+            overflow: hidden; aspect-ratio: 3/4;
+        }
+        .sf-trio-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform .6s cubic-bezier(.25,0,.25,1);
+        }
+        .sf-trio-item:hover img { transform: scale(1.05); }
+
+        /* ============================================
+           8. WISHES
+           ============================================ */
+        .wishes {
+            padding: 100px 48px; background: var(--cream); position: relative;
+        }
+        .wishes::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 1px; background: var(--border);
+        }
+        .wishes-header {
+            display: grid; grid-template-columns: 1fr auto 1fr;
+            align-items: center; gap: 40px; margin-bottom: 72px;
+            max-width: 1100px; margin-left: auto; margin-right: auto;
+        }
+        .wishes-header-line { height: 1px; background: var(--border); }
+        .wishes-header-center { text-align: center; }
+        .wishes-label {
+            font-family: var(--sans); font-size: 9px; font-weight: 500;
+            letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px;
+        }
+        .wishes-title {
+            font-family: var(--serif); font-size: clamp(32px, 5vw, 48px);
+            font-weight: 700; color: var(--text);
+        }
+        .wishes-title em { font-style: italic; color: var(--gold); }
+
+        .w-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1px; background: var(--border); border: 1px solid var(--border);
+            max-width: 1100px; margin: 0 auto;
+        }
+        .w-card {
+            background: var(--white); padding: 44px 28px; text-align: center;
+            transition: background .4s;
+        }
+        .w-card:hover { background: var(--cream); }
+        .w-card-num {
+            font-family: var(--serif); font-size: 11px; color: var(--gold-light);
+            letter-spacing: 2px; margin-bottom: 16px; display: block;
+        }
+        .w-card-icon {
+            font-size: 28px; margin-bottom: 14px; display: block;
+            transition: transform .4s;
+        }
+        .w-card:hover .w-card-icon { transform: scale(1.15) rotate(5deg); }
+        .w-card-title {
+            font-family: var(--serif); font-size: 20px; font-weight: 600;
+            color: var(--text); margin-bottom: 10px;
+        }
+        .w-card-text {
+            font-family: var(--serif-body); font-size: 16px; font-style: italic;
+            color: var(--text-muted); line-height: 1.6;
         }
 
-        .el-dropcap {
-            font-family: var(--serif);
-            font-size: 72px;
-            font-weight: 700;
-            float: left;
-            line-height: 0.8;
-            margin-right: 12px;
-            margin-top: 6px;
-            color: var(--color-rose);
-        }
-
-        .el-text {
-            font-family: var(--serif-body);
-            font-size: 19px;
-            font-weight: 400;
-            line-height: 1.8;
-            color: var(--color-text-soft);
-        }
-        .el-text p {
-            margin-bottom: 20px;
-        }
-        .el-text strong {
-            color: var(--color-text);
-            font-weight: 600;
-        }
-
-        .el-signature {
-            font-family: var(--serif);
-            font-size: 22px;
-            font-style: italic;
-            color: var(--color-rose);
-            margin-top: 12px;
-        }
-
-        .el-right {
-            position: relative;
-        }
-        .el-image-frame {
-            aspect-ratio: 3/4;
-            overflow: hidden;
-            position: relative;
-        }
-        .el-image-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: saturate(0.8) contrast(1.03);
-            transition: transform 0.8s cubic-bezier(0.25,0,0.25,1);
-        }
-        .el-image-frame:hover img {
-            transform: scale(1.03);
-        }
-        .el-image-frame::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border: 1px solid rgba(255,255,255,0.3);
-            pointer-events: none;
-        }
-        .el-image-caption {
-            font-family: var(--sans);
-            font-size: 10px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
-            margin-top: 16px;
-            text-align: right;
-        }
-
-        /* =============================================
-           PAGE 3 — FULL BLEED QUOTE
-           ============================================= */
-        .fullbleed-quote {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            background: var(--color-bg-dark);
-        }
-
-        .fullbleed-quote-bg {
-            position: absolute;
-            inset: 0;
-        }
-        .fullbleed-quote-bg img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.3;
-            filter: saturate(0.4) contrast(1.1);
-        }
-
-        .fullbleed-quote-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding: 48px;
-            max-width: 800px;
-        }
-
-        .fq-decorator {
-            font-family: var(--serif);
-            font-size: 120px;
-            font-weight: 300;
-            color: var(--color-gold);
-            opacity: 0.4;
-            line-height: 0.5;
-            margin-bottom: 20px;
-        }
-
-        .fq-text {
-            font-family: var(--serif);
-            font-size: clamp(28px, 5vw, 52px);
-            font-weight: 400;
-            font-style: italic;
-            color: #FAF7F4;
-            line-height: 1.4;
-            margin-bottom: 32px;
-        }
-
-        .fq-line {
-            width: 48px;
-            height: 1px;
-            background: var(--color-gold);
-            margin: 0 auto 24px;
-        }
-
-        .fq-author {
-            font-family: var(--sans);
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--color-gold-light);
-        }
-
-        /* =============================================
-           PAGE 4 — EDITORIAL SPREAD (PHOTO STORY)
-           ============================================= */
-        .photo-story {
-            min-height: 100vh;
-            padding: 100px 48px;
-            position: relative;
-            background: var(--color-bg);
-        }
-
-        .ps-header {
-            text-align: center;
-            margin-bottom: 64px;
-        }
-        .ps-label {
-            font-family: var(--sans);
-            font-size: 9px;
-            font-weight: 500;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--color-blush);
-            margin-bottom: 20px;
-        }
-        .ps-title {
-            font-family: var(--serif);
-            font-size: clamp(32px, 5vw, 52px);
-            font-weight: 600;
-            color: var(--color-text);
-            margin-bottom: 8px;
-        }
-        .ps-title em {
-            font-style: italic;
-            color: var(--color-rose);
-        }
-        .ps-subtitle {
-            font-family: var(--serif-body);
-            font-size: 18px;
-            font-style: italic;
-            color: var(--color-text-muted);
-        }
-
-        .ps-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            grid-template-rows: auto;
-            gap: 20px;
-        }
-
-        .ps-item {
-            position: relative;
-            overflow: hidden;
-        }
-        .ps-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            filter: saturate(0.8) contrast(1.02);
-            transition: transform 0.8s cubic-bezier(0.25,0,0.25,1), filter 0.6s ease;
-        }
-        .ps-item:hover img {
-            transform: scale(1.04);
-            filter: saturate(1) contrast(1.02);
-        }
-        .ps-item::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, transparent 60%, rgba(45,41,38,0.2) 100%);
-            pointer-events: none;
-        }
-
-        .ps-item-1 {
-            grid-column: 1 / 8;
-            aspect-ratio: 4/5;
-        }
-        .ps-item-2 {
-            grid-column: 8 / 13;
-            aspect-ratio: 3/4;
-        }
-        .ps-item-3 {
-            grid-column: 1 / 7;
-            aspect-ratio: 3/4;
-        }
-        .ps-item-4 {
-            grid-column: 7 / 13;
-            aspect-ratio: 3/4;
-        }
-
-        .ps-item-overlay {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            z-index: 2;
-            color: #FAF7F4;
-        }
-        .ps-item-overlay span {
-            font-family: var(--sans);
-            font-size: 9px;
-            font-weight: 500;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            background: rgba(45,41,38,0.5);
-            padding: 6px 12px;
-            backdrop-filter: blur(4px);
-        }
-
-        /* =============================================
-           PAGE 5 — WISHES (MAGAZINE FEATURE)
-           ============================================= */
-        .wishes-feature {
-            min-height: 100vh;
-            padding: 100px 48px;
-            background: var(--color-card);
-            position: relative;
-        }
-
-        .wishes-feature::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 1px;
-            background: var(--color-border);
-        }
-
-        .wf-container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .wf-header {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            align-items: center;
-            gap: 40px;
-            margin-bottom: 80px;
-        }
-        .wf-header-line {
-            height: 1px;
-            background: var(--color-border);
-        }
-        .wf-header-center {
-            text-align: center;
-        }
-        .wf-header-label {
-            font-family: var(--sans);
-            font-size: 9px;
-            font-weight: 500;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--color-blush);
-            margin-bottom: 12px;
-        }
-        .wf-header-title {
-            font-family: var(--serif);
-            font-size: clamp(32px, 5vw, 48px);
-            font-weight: 600;
-            color: var(--color-text);
-        }
-        .wf-header-title em {
-            font-style: italic;
-            color: var(--color-rose);
-        }
-
-        .wf-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1px;
-            background: var(--color-border);
-            border: 1px solid var(--color-border);
-        }
-
-        .wf-card {
-            background: var(--color-card);
-            padding: 48px 32px;
-            text-align: center;
-            transition: all 0.5s cubic-bezier(0.25,0,0.25,1);
-            position: relative;
-        }
-        .wf-card:hover {
-            background: var(--color-bg);
-        }
-
-        .wf-card-number {
-            font-family: var(--serif);
-            font-size: 11px;
-            font-weight: 400;
-            color: var(--color-gold-light);
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            display: block;
-        }
-        .wf-card-symbol {
-            font-family: var(--serif);
-            font-size: 36px;
-            color: var(--color-blush);
-            margin-bottom: 16px;
-            display: block;
-            transition: transform 0.5s ease;
-        }
-        .wf-card:hover .wf-card-symbol {
-            transform: scale(1.15) rotate(5deg);
-        }
-
-        .wf-card-title {
-            font-family: var(--serif);
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--color-text);
-            margin-bottom: 12px;
-            letter-spacing: 0.5px;
-        }
-        .wf-card-text {
-            font-family: var(--serif-body);
-            font-size: 16px;
-            font-weight: 400;
-            font-style: italic;
-            color: var(--color-text-muted);
-            line-height: 1.6;
-        }
-
-        /* =============================================
-           PAGE 6 — BEAUTY TIPS (FUN MAGAZINE SECTION)
-           ============================================= */
-        .beauty-section {
-            min-height: 100vh;
-            display: flex;
-            position: relative;
-            overflow: hidden;
-            background: var(--color-bg-warm);
-        }
-
-        .beauty-left {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-        }
-        .beauty-left img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: saturate(0.75) contrast(1.05);
-        }
-        .beauty-left::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to right, transparent 50%, var(--color-bg-warm) 100%);
-        }
-
-        .beauty-right {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 80px 64px;
-        }
-
-        .beauty-label {
-            font-family: var(--sans);
-            font-size: 9px;
-            font-weight: 500;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--color-blush);
-            margin-bottom: 24px;
-        }
-
-        .beauty-title {
-            font-family: var(--serif);
-            font-size: clamp(32px, 4vw, 48px);
-            font-weight: 600;
-            color: var(--color-text);
-            margin-bottom: 8px;
-            line-height: 1.1;
-        }
-        .beauty-title em {
-            font-style: italic;
-            color: var(--color-rose);
-        }
-
-        .beauty-subtitle {
-            font-family: var(--serif-body);
-            font-size: 18px;
-            font-style: italic;
-            color: var(--color-text-muted);
-            margin-bottom: 40px;
-        }
-
-        .beauty-tips {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 28px;
-        }
-
-        .beauty-tip {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-        }
-
-        .beauty-tip-num {
-            font-family: var(--serif);
-            font-size: 32px;
-            font-weight: 300;
-            color: var(--color-gold-light);
-            line-height: 1;
-            min-width: 36px;
-        }
-
-        .beauty-tip-content h4 {
-            font-family: var(--serif);
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--color-text);
-            margin-bottom: 4px;
-        }
-        .beauty-tip-content p {
-            font-family: var(--serif-body);
-            font-size: 16px;
-            font-weight: 400;
-            color: var(--color-text-soft);
-            line-height: 1.6;
-        }
-
-        /* =============================================
-           PAGE 7 — HOROSCOPE / STARS
-           ============================================= */
+        /* ============================================
+           9. HOROSCOPE
+           ============================================ */
         .horoscope {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: var(--color-bg-dark);
-            padding: 80px 48px;
-            position: relative;
-            overflow: hidden;
+            min-height: 100vh; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            background: var(--black); padding: 80px 48px;
+            position: relative; overflow: hidden;
         }
-
         .horoscope::before {
-            content: '';
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            border: 1px solid rgba(212,196,176,0.1);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            content: ''; position: absolute; width: 550px; height: 550px;
+            border: 1px solid rgba(201,169,110,0.1); border-radius: 50%;
+            top: 50%; left: 50%; transform: translate(-50%,-50%);
         }
         .horoscope::after {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            border: 1px solid rgba(212,196,176,0.07);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            content: ''; position: absolute; width: 350px; height: 350px;
+            border: 1px solid rgba(201,169,110,0.06); border-radius: 50%;
+            top: 50%; left: 50%; transform: translate(-50%,-50%);
         }
-
-        .horo-stars {
-            position: absolute;
-            inset: 0;
-            overflow: hidden;
-        }
-
+        .horo-stars { position: absolute; inset: 0; overflow: hidden; }
         .horo-label {
-            font-family: var(--sans);
-            font-size: 9px;
-            font-weight: 500;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--color-gold);
-            margin-bottom: 24px;
-            position: relative;
-            z-index: 2;
+            font-family: var(--sans); font-size: 9px; font-weight: 500;
+            letter-spacing: 4px; text-transform: uppercase; color: var(--gold);
+            margin-bottom: 24px; position: relative; z-index: 2;
         }
-
-        .horo-symbol {
-            font-size: 48px;
-            margin-bottom: 24px;
-            position: relative;
-            z-index: 2;
-            opacity: 0.8;
-        }
-
+        .horo-symbol { font-size: 48px; margin-bottom: 20px; position: relative; z-index: 2; opacity: 0.8; }
         .horo-sign {
-            font-family: var(--serif);
-            font-size: clamp(36px, 6vw, 64px);
-            font-weight: 700;
-            color: #FAF7F4;
-            margin-bottom: 8px;
-            position: relative;
-            z-index: 2;
+            font-family: var(--serif); font-size: clamp(36px, 6vw, 64px);
+            font-weight: 700; color: var(--white); margin-bottom: 8px;
+            position: relative; z-index: 2;
         }
-
         .horo-date {
-            font-family: var(--sans);
-            font-size: 11px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--color-gold-light);
-            margin-bottom: 40px;
-            position: relative;
-            z-index: 2;
+            font-family: var(--sans); font-size: 11px; letter-spacing: 3px;
+            text-transform: uppercase; color: var(--gold-light);
+            margin-bottom: 36px; position: relative; z-index: 2;
         }
-
-        .horo-line {
-            width: 48px;
-            height: 1px;
-            background: var(--color-gold);
-            opacity: 0.4;
-            margin-bottom: 40px;
-            position: relative;
-            z-index: 2;
+        .horo-line2 {
+            width: 48px; height: 1px; background: var(--gold); opacity: 0.4;
+            margin-bottom: 36px; position: relative; z-index: 2;
         }
-
         .horo-text {
-            font-family: var(--serif-body);
-            font-size: clamp(18px, 2.5vw, 22px);
-            font-weight: 400;
-            font-style: italic;
-            color: rgba(250,247,244,0.7);
-            max-width: 560px;
-            text-align: center;
-            line-height: 1.8;
-            position: relative;
-            z-index: 2;
+            font-family: var(--serif-body); font-size: clamp(18px, 2.5vw, 22px);
+            font-weight: 400; font-style: italic; color: rgba(250,250,250,0.7);
+            max-width: 540px; text-align: center; line-height: 1.85;
+            position: relative; z-index: 2;
         }
-
         .horo-traits {
-            display: flex;
-            gap: 32px;
-            margin-top: 48px;
-            position: relative;
-            z-index: 2;
+            display: flex; gap: 32px; margin-top: 44px; position: relative; z-index: 2;
         }
-        .horo-trait {
-            text-align: center;
-        }
+        .horo-trait { text-align: center; }
         .horo-trait-label {
-            font-family: var(--sans);
-            font-size: 9px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--color-gold);
-            margin-bottom: 8px;
-            display: block;
+            font-family: var(--sans); font-size: 9px; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--gold); margin-bottom: 8px; display: block;
         }
         .horo-trait-value {
-            font-family: var(--serif);
-            font-size: 18px;
-            font-weight: 500;
-            color: #FAF7F4;
+            font-family: var(--serif); font-size: 18px; font-weight: 500; color: var(--white);
         }
 
-        /* =============================================
-           PAGE 8 — MAKE A WISH (INTERACTIVE)
-           ============================================= */
+        /* ============================================
+           10. MAKE A WISH
+           ============================================ */
         .wish-page {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: var(--color-bg);
-            position: relative;
-            padding: 80px 48px;
+            min-height: 100vh; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            background: var(--white); padding: 80px 48px; position: relative;
         }
-
-        .wish-page-label {
-            font-family: var(--sans);
-            font-size: 9px;
-            font-weight: 500;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--color-blush);
-            margin-bottom: 32px;
+        .wp-label {
+            font-family: var(--sans); font-size: 9px; font-weight: 500;
+            letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 32px;
         }
-
-        .wish-page-title {
-            font-family: var(--serif);
-            font-size: clamp(42px, 8vw, 80px);
-            font-weight: 700;
-            color: var(--color-text);
-            text-align: center;
-            line-height: 1.1;
-            margin-bottom: 16px;
+        .wp-title {
+            font-family: var(--serif); font-size: clamp(42px, 8vw, 80px);
+            font-weight: 700; color: var(--text); text-align: center; line-height: 1.1; margin-bottom: 16px;
         }
-        .wish-page-title em {
-            font-style: italic;
-            color: var(--color-rose);
+        .wp-title em { font-style: italic; color: var(--gold); }
+        .wp-sub {
+            font-family: var(--serif-body); font-size: clamp(18px, 2.5vw, 24px);
+            font-weight: 300; font-style: italic; color: var(--text-muted);
+            margin-bottom: 48px; text-align: center;
         }
-
-        .wish-page-subtitle {
-            font-family: var(--serif-body);
-            font-size: clamp(18px, 2.5vw, 24px);
-            font-weight: 300;
-            font-style: italic;
-            color: var(--color-text-muted);
-            margin-bottom: 52px;
-            text-align: center;
-        }
-
         .btn {
-            display: inline-block;
-            padding: 18px 56px;
-            background: var(--color-text);
-            color: var(--color-bg);
-            border: none;
-            font-family: var(--sans);
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.25,0,0.25,1);
-            position: relative;
-            overflow: hidden;
+            display: inline-block; padding: 18px 56px;
+            background: var(--black); color: var(--white); border: none;
+            font-family: var(--sans); font-size: 11px; font-weight: 500;
+            letter-spacing: 3px; text-transform: uppercase;
+            cursor: pointer; transition: all .4s cubic-bezier(.25,0,.25,1);
+            position: relative; overflow: hidden;
         }
         .btn:hover {
-            background: var(--color-rose);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(196,139,145,0.3);
+            background: var(--gold); color: var(--black);
+            transform: translateY(-2px); box-shadow: 0 12px 32px rgba(201,169,110,0.3);
         }
-        .btn:active {
-            transform: translateY(0);
+        .wp-footer { margin-top: 72px; text-align: center; }
+        .wp-quote {
+            font-family: var(--serif); font-size: clamp(16px, 2.5vw, 22px);
+            font-weight: 400; font-style: italic; color: var(--text-soft); margin-bottom: 10px; max-width: 420px;
         }
-
-        .wish-page-footer {
-            margin-top: 80px;
-            text-align: center;
-        }
-        .wish-page-quote {
-            font-family: var(--serif);
-            font-size: clamp(16px, 2.5vw, 22px);
-            font-weight: 400;
-            font-style: italic;
-            color: var(--color-text-soft);
-            margin-bottom: 12px;
-            max-width: 400px;
-        }
-        .wish-page-cite {
-            font-family: var(--sans);
-            font-size: 10px;
-            font-weight: 500;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
+        .wp-cite {
+            font-family: var(--sans); font-size: 10px; font-weight: 500;
+            letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted);
         }
 
-        /* =============================================
-           PAGE 9 — BACK COVER
-           ============================================= */
+        /* ============================================
+           11. BACK COVER
+           ============================================ */
         .back-cover {
-            min-height: 60vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: var(--color-bg-dark);
-            padding: 80px 48px;
-            position: relative;
+            min-height: 50vh; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            background: var(--black); padding: 80px 48px; position: relative;
         }
-
         .bc-monogram {
-            font-family: var(--serif);
-            font-size: clamp(80px, 15vw, 160px);
-            font-weight: 700;
-            color: rgba(250,247,244,0.06);
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            font-family: var(--serif); font-size: clamp(80px, 16vw, 180px);
+            font-weight: 800; color: rgba(201,169,110,0.06);
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
             letter-spacing: 20px;
         }
-
-        .bc-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-        }
-
+        .bc-content { position: relative; z-index: 2; text-align: center; }
         .bc-logo {
-            font-family: var(--serif);
-            font-size: 16px;
-            font-weight: 400;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            color: var(--color-gold);
-            margin-bottom: 20px;
+            font-family: var(--serif); font-size: 16px; font-weight: 400;
+            letter-spacing: 8px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
         }
-
-        .bc-line {
-            width: 48px;
-            height: 1px;
-            background: var(--color-gold);
-            opacity: 0.3;
-            margin: 0 auto 20px;
-        }
-
+        .bc-line { width: 48px; height: 1px; background: var(--gold); opacity: .3; margin: 0 auto 20px; }
         .bc-text {
-            font-family: var(--serif-body);
-            font-size: 16px;
-            font-style: italic;
-            color: rgba(250,247,244,0.5);
-            margin-bottom: 6px;
+            font-family: var(--serif-body); font-size: 16px; font-style: italic;
+            color: rgba(250,250,250,0.45); margin-bottom: 6px;
         }
-
         .bc-year {
-            font-family: var(--sans);
-            font-size: 10px;
-            letter-spacing: 3px;
-            color: rgba(250,247,244,0.3);
-            margin-top: 24px;
+            font-family: var(--sans); font-size: 10px; letter-spacing: 3px;
+            color: rgba(250,250,250,0.25); margin-top: 24px;
         }
 
-        /* === Confetti Canvas === */
+        /* Confetti */
         #confettiCanvas {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 100;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 100;
         }
 
-        /* === RESPONSIVE === */
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
         @media (max-width: 900px) {
-            .el-container {
-                grid-template-columns: 1fr;
-                gap: 48px;
-            }
-            .el-right { order: -1; }
-            .el-image-frame { max-height: 400px; }
-
-            .wf-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .beauty-section {
-                flex-direction: column;
-            }
-            .beauty-left {
-                height: 50vh;
-            }
-            .beauty-left::after {
-                background: linear-gradient(to bottom, transparent 50%, var(--color-bg-warm) 100%);
-            }
-            .beauty-right {
-                padding: 48px 32px;
-            }
-
-            .ps-grid {
-                grid-template-columns: repeat(6, 1fr);
-            }
-            .ps-item-1 { grid-column: 1 / 7; aspect-ratio: 16/9; }
-            .ps-item-2 { grid-column: 1 / 4; }
-            .ps-item-3 { grid-column: 4 / 7; }
-            .ps-item-4 { grid-column: 1 / 7; }
-
-            .cover-footer { flex-direction: column; gap: 20px; align-items: center; }
-            .cover-headlines { gap: 24px; }
+            .intro-grid { grid-template-columns: 1fr; gap: 48px; }
+            .intro-photo { order: -1; }
+            .intro-photo-frame { max-height: 420px; }
+            .w-grid { grid-template-columns: repeat(2, 1fr); }
+            .lb-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; }
+            .lb-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+            .lb-item:nth-child(2) { grid-column: span 1; grid-row: span 2; }
+            .lb-item:nth-child(3) { grid-column: span 1; grid-row: span 2; }
+            .lb-item:nth-child(4) { grid-column: span 1; grid-row: span 2; }
+            .lb-item:nth-child(5) { grid-column: span 1; grid-row: span 2; }
+            .lb-item:nth-child(6) { grid-column: span 2; grid-row: span 2; }
+            .lb-item:nth-child(7) { grid-column: span 1; grid-row: span 2; }
+            .lb-item:nth-child(8) { grid-column: span 1; grid-row: span 2; }
+            .lb-item:nth-child(9) { grid-column: span 1; grid-row: span 2; }
+            .lb-item:nth-child(10) { grid-column: span 1; grid-row: span 2; }
+            .sf-trio { grid-template-columns: 1fr; }
+            .sf-trio-item { aspect-ratio: 16/9; }
+            .cover-bottom { flex-direction: column; gap: 20px; align-items: center; }
+            .cover-hints { gap: 24px; }
         }
 
         @media (max-width: 600px) {
-            .cover-masthead { padding: 20px 24px; }
-            .cover-masthead-center { font-size: 11px; letter-spacing: 4px; }
-            .cover-masthead-left, .cover-masthead-right { font-size: 8px; }
-            .cover-body { padding: 24px; }
-            .cover-image-bg { inset: 20px; }
-            .cover-footer { padding: 0 24px 28px; }
-            .cover-headlines { display: none; }
-
-            .editors-letter { padding: 64px 24px; }
-            .el-container { gap: 32px; }
-
-            .photo-story { padding: 64px 24px; }
-            .ps-grid { grid-template-columns: 1fr; }
-            .ps-item-1, .ps-item-2, .ps-item-3, .ps-item-4 {
-                grid-column: 1 / -1;
-                aspect-ratio: 4/3;
-            }
-
-            .wishes-feature { padding: 64px 24px; }
-            .wf-grid { grid-template-columns: 1fr; }
-            .wf-header { grid-template-columns: 1fr; gap: 16px; }
-            .wf-header-line { display: none; }
-            .wf-card { padding: 36px 24px; }
-
-            .beauty-right { padding: 40px 24px; }
-
-            .horoscope { padding: 64px 24px; }
-            .horo-traits { gap: 20px; flex-wrap: wrap; justify-content: center; }
-
-            .wish-page { padding: 64px 24px; }
-
-            .back-cover { padding: 64px 24px; }
-
-            .page-nav { right: 12px; gap: 8px; }
-            .page-nav-dot { width: 6px; height: 6px; }
-
-            .fullbleed-quote-content { padding: 24px; }
+            .cover-top { padding: 16px 20px; }
+            .cover-top span { font-size: 8px; letter-spacing: 2px; }
+            .cover-center { padding: 24px; }
+            .cover-bottom { padding: 0 20px 24px; }
+            .cover-hints { display: none; }
+            .intro { padding: 60px 20px; }
+            .lookbook { padding: 60px 20px; }
+            .lb-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+            .lb-item, .lb-item:nth-child(n) { grid-column: span 1; grid-row: span 1; aspect-ratio: 3/4; }
+            .hgallery { padding: 40px 0; }
+            .hgallery-item { width: 85vw; min-width: 280px; }
+            .style-file { padding: 60px 20px; }
+            .wishes { padding: 60px 20px; }
+            .w-grid { grid-template-columns: 1fr; }
+            .wishes-header { grid-template-columns: 1fr; gap: 12px; }
+            .wishes-header-line { display: none; }
+            .horoscope { padding: 60px 20px; }
+            .horo-traits { gap: 16px; flex-wrap: wrap; justify-content: center; }
+            .wish-page { padding: 60px 20px; }
+            .back-cover { padding: 60px 20px; }
+            .page-nav { right: 10px; gap: 7px; }
+            .page-nav-dot { width: 5px; height: 5px; }
+            .dark-quote-content { padding: 24px; }
         }
 
-        /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
                 transition-duration: 0.01ms !important;
             }
-            .petal { display: none; }
             .reveal { opacity: 1; transform: none; }
         }
     </style>
@@ -1203,243 +613,265 @@
 
     <canvas id="confettiCanvas"></canvas>
 
-    <!-- Page Navigation Dots -->
-    <nav class="page-nav" aria-label="Page navigation">
+    <!-- Page Nav -->
+    <nav class="page-nav" aria-label="Навігація">
         <button class="page-nav-dot active" data-page="0" aria-label="Cover"></button>
-        <button class="page-nav-dot" data-page="1" aria-label="Letter"></button>
-        <button class="page-nav-dot" data-page="2" aria-label="Quote"></button>
-        <button class="page-nav-dot" data-page="3" aria-label="Photos"></button>
-        <button class="page-nav-dot" data-page="4" aria-label="Wishes"></button>
-        <button class="page-nav-dot" data-page="5" aria-label="Beauty"></button>
-        <button class="page-nav-dot" data-page="6" aria-label="Stars"></button>
-        <button class="page-nav-dot" data-page="7" aria-label="Wish"></button>
-        <button class="page-nav-dot" data-page="8" aria-label="End"></button>
+        <button class="page-nav-dot" data-page="1" aria-label="Intro"></button>
+        <button class="page-nav-dot" data-page="2" aria-label="Banner"></button>
+        <button class="page-nav-dot" data-page="3" aria-label="Lookbook"></button>
+        <button class="page-nav-dot" data-page="4" aria-label="Gallery"></button>
+        <button class="page-nav-dot" data-page="5" aria-label="Quote"></button>
+        <button class="page-nav-dot" data-page="6" aria-label="Style"></button>
+        <button class="page-nav-dot" data-page="7" aria-label="Wishes"></button>
+        <button class="page-nav-dot" data-page="8" aria-label="Stars"></button>
+        <button class="page-nav-dot" data-page="9" aria-label="Wish"></button>
+        <button class="page-nav-dot" data-page="10" aria-label="End"></button>
     </nav>
 
     <!-- ==========================================
-         PAGE 1 — MAGAZINE COVER
+         1. COVER
          ========================================== -->
-    <section class="cover page-section" data-theme="light">
-        <div class="cover-masthead">
-            <span class="cover-masthead-left">Issue N&deg;01</span>
-            <span class="cover-masthead-center">Birthday Edition</span>
-            <span class="cover-masthead-right">22.02.2026</span>
+    <section class="cover page-section" data-theme="dark">
+        <div class="cover-bg">
+            <img src="Photo2/hf_20260222_104219_94239806-c224-4b9b-8420-aab84ae9842e (1).png" alt="Katya" loading="eager">
         </div>
-
-        <div class="cover-body">
-            <div class="cover-image-bg">
-                <img src="photo/hf_20260222_101013_8fdc7690-6d15-4ef7-b029-c83e8299b633.png" alt="Katya — Birthday Cover" loading="eager">
-            </div>
-            <div class="cover-content">
-                <div class="cover-issue reveal">SPECIAL BIRTHDAY ISSUE</div>
-                <h1 class="cover-title reveal reveal-delay-1">KATYA</h1>
-                <p class="cover-tagline reveal reveal-delay-2">Нехай цей день буде таким же прекрасним, як ти</p>
-            </div>
+        <div class="cover-top">
+            <span>Issue N&deg;01</span>
+            <span style="font-family:var(--serif);letter-spacing:6px;font-size:12px;">Birthday Edition</span>
+            <span>22.02.2026</span>
         </div>
-
-        <div class="cover-footer">
-            <div class="cover-headlines">
-                <div class="cover-headline-item">
-                    <div class="cover-headline-label">Inside</div>
-                    <div class="cover-headline-text">Побажання &amp; натхнення</div>
+        <div class="cover-center">
+            <div class="cover-issue reveal">Special Birthday Issue</div>
+            <h1 class="cover-title reveal reveal-d1">KATYA</h1>
+            <p class="cover-tagline reveal reveal-d2">Черговий рік бути неймовірною &mdash; challenge accepted</p>
+        </div>
+        <div class="cover-bottom">
+            <div class="cover-hints">
+                <div class="cover-hint-item">
+                    <div class="cover-hint-label">Inside</div>
+                    <div class="cover-hint-text">Lookbook &amp; побажання</div>
                 </div>
-                <div class="cover-headline-item">
-                    <div class="cover-headline-label">Exclusive</div>
-                    <div class="cover-headline-text">Зіркове передбачення</div>
+                <div class="cover-hint-item">
+                    <div class="cover-hint-label">Exclusive</div>
+                    <div class="cover-hint-text">Зіркове передбачення</div>
                 </div>
             </div>
-            <div class="cover-scroll-hint">Scroll</div>
+            <div class="cover-scroll">Scroll</div>
         </div>
     </section>
 
     <!-- ==========================================
-         PAGE 2 — EDITOR'S LETTER
+         2. INTRO / EDITOR'S LETTER
          ========================================== -->
-    <section class="editors-letter page-section" data-theme="light">
-        <div class="el-container">
-            <div class="el-left">
-                <div class="el-page-label reveal">Editor's Letter</div>
-                <h2 class="el-title reveal reveal-delay-1">
-                    Дорога<br><em>Катю</em>
-                </h2>
-                <div class="el-line reveal reveal-delay-2"></div>
-                <div class="el-text reveal reveal-delay-2">
-                    <p><span class="el-dropcap">В</span>ітаю тебе з Днем народження! Бажаю, щоб кожен день був наповнений <strong>натхненням</strong>, <strong>красою</strong> та <strong>гармонією</strong>.</p>
-                    <p>Нехай життя буде як ідеальна стрічка в Instagram &mdash; стильне, яскраве і сповнене моментів, від яких завмирає серце.</p>
-                    <p>Щоб завжди був <strong>ідеальний outfit</strong>, <strong>теплий латте</strong> і люди поруч, які цінують тебе такою, якою ти є.</p>
+    <section class="intro page-section" data-theme="light">
+        <div class="intro-grid">
+            <div class="intro-left">
+                <div class="intro-label reveal">From The Editor</div>
+                <h2 class="intro-title reveal reveal-d1">Привіт,<br><em>Катю</em></h2>
+                <div class="intro-line reveal reveal-d2"></div>
+                <div class="intro-text reveal reveal-d2">
+                    <p><span class="intro-dropcap">Т</span>и з тих людей, поруч з якими мимоволі хочеться сидіти рівніше і одягатися краще. Це не компліменти &mdash; це <strong>медичний факт</strong>.</p>
+                    <p>Сьогодні твій день, і я хочу сказати просто: <strong>дякую, що ти є</strong>. За те, що вмієш бути одночасно зібраною і легкою. За кави, які завжди вчасно. За те, що твій стиль &mdash; це не про тренди, а про характер.</p>
+                    <p>Бажаю тобі року, в якому <strong>все складається</strong> &mdash; не тому що так треба, а тому що ти цього варта. І щоб у шафі завжди знаходився той самий ідеальний жакет під настрій.</p>
                 </div>
-                <div class="el-signature reveal reveal-delay-3">З любов&rsquo;ю &hearts;</div>
+                <div class="intro-sign reveal reveal-d3">Твій друг, який це все серйозно</div>
             </div>
-            <div class="el-right">
-                <div class="el-image-frame reveal">
-                    <img src="photo/hf_20260222_101035_1a10f049-e9be-4010-9655-ecb1ad5b2feb.png" alt="Katya — Editorial Portrait" loading="lazy">
+            <div class="intro-photo">
+                <div class="intro-photo-frame reveal">
+                    <img src="Photo2/hf_20260222_104533_c6db04fe-d658-4ff3-a6a3-5ec4c6a6b384.jpeg" alt="Katya portrait" loading="lazy">
                 </div>
-                <div class="el-image-caption reveal reveal-delay-1">The Birthday Girl</div>
+                <div class="intro-photo-cap reveal reveal-d1">The Birthday Girl</div>
             </div>
         </div>
     </section>
 
     <!-- ==========================================
-         PAGE 3 — FULL BLEED QUOTE
+         3. FULL-WIDTH BANNER
          ========================================== -->
-    <section class="fullbleed-quote page-section" data-theme="dark">
-        <div class="fullbleed-quote-bg">
-            <img src="photo/hf_20260222_101029_c41d0cab-b085-44cc-9238-ce19035599c7.jpeg" alt="Katya — Editorial Dark" loading="lazy">
-        </div>
-        <div class="fullbleed-quote-content">
-            <div class="fq-decorator reveal">&laquo;</div>
-            <p class="fq-text reveal reveal-delay-1">Справжня краса &mdash; це коли естетика зовнішня збігається з внутрішньою</p>
-            <div class="fq-line reveal reveal-delay-2"></div>
-            <span class="fq-author reveal reveal-delay-3">Birthday Mantra</span>
-        </div>
+    <section class="banner-section page-section" data-theme="dark">
+        <img src="Photo2/hf_20260222_112032_c6707bb3-6ef7-45b6-be2e-2cb14a2729e9.jpeg" alt="Fashion Fusion" loading="lazy">
     </section>
 
     <!-- ==========================================
-         PAGE 4 — PHOTO STORY
+         4. LOOKBOOK (10 photos)
          ========================================== -->
-    <section class="photo-story page-section" data-theme="light">
-        <div class="ps-header">
-            <div class="ps-label reveal">Photo Story</div>
-            <h2 class="ps-title reveal reveal-delay-1">Моменти <em>натхнення</em></h2>
-            <p class="ps-subtitle reveal reveal-delay-2">Краса у кожній деталі</p>
+    <section class="lookbook page-section" data-theme="light">
+        <div class="lookbook-header">
+            <div class="lookbook-label reveal">The Lookbook</div>
+            <h2 class="lookbook-title reveal reveal-d1">Один гардероб.<br><em>Нескінченні варіанти.</em></h2>
+            <p class="lookbook-sub reveal reveal-d2">Від haute couture до &laquo;просто вийшла за кавою&raquo;</p>
         </div>
 
-        <div class="ps-grid">
-            <div class="ps-item ps-item-1 reveal">
-                <img src="photo/hf_20260222_101029_c41d0cab-b085-44cc-9238-ce19035599c7.jpeg" alt="Katya — Style" loading="lazy">
-                <div class="ps-item-overlay"><span>Style</span></div>
+        <div class="lb-grid">
+            <div class="lb-item reveal">
+                <img src="Photo2/hf_20260222_111558_2bc2f7a7-82fb-4027-8c91-c0507ed4db31.jpeg" alt="Editorial look" loading="lazy">
             </div>
-            <div class="ps-item ps-item-2 reveal reveal-delay-1">
-                <img src="photo/hf_20260222_101013_8fdc7690-6d15-4ef7-b029-c83e8299b633.png" alt="Katya — Beauty" loading="lazy">
-                <div class="ps-item-overlay"><span>Beauty</span></div>
+            <div class="lb-item reveal reveal-d1">
+                <img src="Photo2/hf_20260222_111602_3a31fcce-7674-4d1d-81d0-2e2c40def292.jpeg" alt="Luxe emerald" loading="lazy">
             </div>
-            <div class="ps-item ps-item-3 reveal reveal-delay-1">
-                <img src="photo/hf_20260222_101035_1a10f049-e9be-4010-9655-ecb1ad5b2feb.png" alt="Katya — Elegance" loading="lazy">
+            <div class="lb-item reveal reveal-d2">
+                <img src="Photo2/hf_20260222_105002_a1b6733d-da0c-4c8a-9bd9-fcff7b3f74fc.jpeg" alt="Blue power suit" loading="lazy">
             </div>
-            <div class="ps-item ps-item-4 reveal reveal-delay-2">
-                <img src="photo/hf_20260222_101049_ef351d4b-e565-4344-817f-e6db303d69c9.jpeg" alt="Katya — Casual" loading="lazy">
-                <div class="ps-item-overlay"><span>Mood</span></div>
+            <div class="lb-item reveal reveal-d1">
+                <img src="Photo2/hf_20260222_111817_d1a6c8e6-a64b-4e82-9c9d-baf121a8ccd7.jpeg" alt="Peach elegance" loading="lazy">
             </div>
-        </div>
-    </section>
-
-    <!-- ==========================================
-         PAGE 5 — WISHES
-         ========================================== -->
-    <section class="wishes-feature page-section" data-theme="light">
-        <div class="wf-container">
-            <div class="wf-header">
-                <div class="wf-header-line"></div>
-                <div class="wf-header-center">
-                    <div class="wf-header-label reveal">Birthday Wishes</div>
-                    <h2 class="wf-header-title reveal reveal-delay-1">Бажаю <em>тобі</em></h2>
-                </div>
-                <div class="wf-header-line"></div>
+            <div class="lb-item reveal reveal-d2">
+                <img src="Photo2/hf_20260222_104958_498dd7cd-1994-4250-8298-1b957904110c.jpeg" alt="Cream lace" loading="lazy">
             </div>
-
-            <div class="wf-grid reveal">
-                <div class="wf-card">
-                    <span class="wf-card-number">01</span>
-                    <span class="wf-card-symbol">&#10047;</span>
-                    <div class="wf-card-title">Краса</div>
-                    <div class="wf-card-text">Натхнення у кожній деталі та естетика у всьому</div>
-                </div>
-                <div class="wf-card">
-                    <span class="wf-card-number">02</span>
-                    <span class="wf-card-symbol">&#9829;</span>
-                    <div class="wf-card-title">Кохання</div>
-                    <div class="wf-card-text">Що надихає, дарує крила та наповнює серце</div>
-                </div>
-                <div class="wf-card">
-                    <span class="wf-card-number">03</span>
-                    <span class="wf-card-symbol">&#10022;</span>
-                    <div class="wf-card-title">Подорожі</div>
-                    <div class="wf-card-text">Яскраві пригоди та незабутні враження</div>
-                </div>
-                <div class="wf-card">
-                    <span class="wf-card-number">04</span>
-                    <span class="wf-card-symbol">&#9825;</span>
-                    <div class="wf-card-title">Гармонія</div>
-                    <div class="wf-card-text">Внутрішній спокій та баланс у всьому</div>
-                </div>
-                <div class="wf-card">
-                    <span class="wf-card-number">05</span>
-                    <span class="wf-card-symbol">&#10053;</span>
-                    <div class="wf-card-title">Стиль</div>
-                    <div class="wf-card-text">Який завжди підкреслює твою унікальність</div>
-                </div>
-                <div class="wf-card">
-                    <span class="wf-card-number">06</span>
-                    <span class="wf-card-symbol">&#9733;</span>
-                    <div class="wf-card-title">Мрії</div>
-                    <div class="wf-card-text">Здійснення усіх найзаповітніших бажань</div>
-                </div>
+            <div class="lb-item reveal reveal-d1">
+                <img src="Photo2/hf_20260222_111942_1b6dc709-30e6-4c67-a7d0-0c187cd0c588.jpeg" alt="Edgy leather" loading="lazy">
+            </div>
+            <div class="lb-item reveal reveal-d2">
+                <img src="Photo2/hf_20260222_111941_2a686197-7caa-4979-8e64-1ae6bea1791c.jpeg" alt="Navy minimalist" loading="lazy">
+            </div>
+            <div class="lb-item reveal reveal-d1">
+                <img src="Photo2/hf_20260222_104712_f2fc193c-6401-487d-b69e-b57205b902e7.jpeg" alt="Art gallery" loading="lazy">
+            </div>
+            <div class="lb-item reveal reveal-d2">
+                <img src="Photo2/hf_20260222_111212_ed79ef23-62e4-4208-8fd4-b1e9852ba9c4.jpeg" alt="Vogue stripes" loading="lazy">
+            </div>
+            <div class="lb-item reveal reveal-d1">
+                <img src="Photo2/hf_20260222_104224_a41d7d9b-fa6e-46c9-be61-5cddfc05897b.jpeg" alt="Vogue metallic" loading="lazy">
             </div>
         </div>
     </section>
 
     <!-- ==========================================
-         PAGE 6 — BEAUTY SECRETS
+         5. HORIZONTAL GALLERY (5 landscape)
          ========================================== -->
-    <section class="beauty-section page-section" data-theme="light">
-        <div class="beauty-left">
-            <img src="photo/hf_20260222_101049_ef351d4b-e565-4344-817f-e6db303d69c9.jpeg" alt="Katya — Street Style" loading="lazy">
-        </div>
-        <div class="beauty-right">
-            <div class="beauty-label reveal">Beauty Column</div>
-            <h2 class="beauty-title reveal reveal-delay-1">Рецепт <em>ідеального</em> дня</h2>
-            <p class="beauty-subtitle reveal reveal-delay-2">Складові щастя за версією редакції</p>
-
-            <ul class="beauty-tips">
-                <li class="beauty-tip reveal reveal-delay-1">
-                    <span class="beauty-tip-num">01</span>
-                    <div class="beauty-tip-content">
-                        <h4>Ранковий ритуал</h4>
-                        <p>Почати день з усмішки, теплого латте та улюбленої музики</p>
-                    </div>
-                </li>
-                <li class="beauty-tip reveal reveal-delay-2">
-                    <span class="beauty-tip-num">02</span>
-                    <div class="beauty-tip-content">
-                        <h4>Стильний образ</h4>
-                        <p>Обрати outfit, який підкреслює настрій та впевненість</p>
-                    </div>
-                </li>
-                <li class="beauty-tip reveal reveal-delay-3">
-                    <span class="beauty-tip-num">03</span>
-                    <div class="beauty-tip-content">
-                        <h4>Моменти радості</h4>
-                        <p>Провести час з тими, хто наповнює енергією та теплом</p>
-                    </div>
-                </li>
-                <li class="beauty-tip reveal reveal-delay-4">
-                    <span class="beauty-tip-num">04</span>
-                    <div class="beauty-tip-content">
-                        <h4>Вечірня магія</h4>
-                        <p>Загадати бажання та знати, що воно обов'язково здійсниться</p>
-                    </div>
-                </li>
-            </ul>
+    <section class="hgallery page-section" data-theme="dark">
+        <div class="hgallery-label reveal">Swipe Gallery</div>
+        <div class="hgallery-track" id="hgTrack">
+            <div class="hgallery-item">
+                <img src="Photo2/hf_20260222_112200_2f950535-b0c8-4cab-baa6-b7df1e037bbb.jpeg" alt="Sporty editorial" loading="lazy">
+            </div>
+            <div class="hgallery-item">
+                <img src="Photo2/hf_20260222_112626_c2847743-1942-4e0a-83e7-72ad0dbc9322.jpeg" alt="Graphic patterns" loading="lazy">
+            </div>
+            <div class="hgallery-item">
+                <img src="Photo2/hf_20260222_112304_b322d7e5-33d9-4660-a32a-cb0360950abd.jpeg" alt="Geometric top-down" loading="lazy">
+            </div>
+            <div class="hgallery-item">
+                <img src="Photo2/hf_20260222_112305_9427e0f9-486e-418d-b083-6d2d4db10211.jpeg" alt="Dramatic contrast" loading="lazy">
+            </div>
+            <div class="hgallery-item">
+                <img src="Photo2/hf_20260222_112201_76d9993f-ca7e-49a3-9563-3e971b96d668.jpeg" alt="Pastel editorial" loading="lazy">
+            </div>
         </div>
     </section>
 
     <!-- ==========================================
-         PAGE 7 — HOROSCOPE
+         6. DARK QUOTE
+         ========================================== -->
+    <section class="dark-quote page-section" data-theme="dark">
+        <div class="dark-quote-bg">
+            <img src="Photo2/hf_20260222_101029_c41d0cab-b085-44cc-9238-ce19035599c7.jpeg" alt="Dark editorial" loading="lazy">
+        </div>
+        <div class="dark-quote-content">
+            <div class="dq-deco reveal">&laquo;</div>
+            <p class="dq-text reveal reveal-d1">Стиль &mdash; це не про одяг. Це про те, як ти заходиш у кімнату і&nbsp;як тебе запам'ятовують</p>
+            <div class="dq-line reveal reveal-d2"></div>
+            <span class="dq-author reveal reveal-d3">Birthday Philosophy</span>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         7. STYLE FILE (4 photos)
+         ========================================== -->
+    <section class="style-file page-section" data-theme="light">
+        <div class="sf-header">
+            <div class="sf-label reveal">Style File</div>
+            <h2 class="sf-title reveal reveal-d1">Три образи. <em>Один характер.</em></h2>
+            <p class="sf-sub reveal reveal-d2">Коли кожен look &mdash; це окрема історія</p>
+        </div>
+        <div class="sf-grid">
+            <div class="sf-main reveal">
+                <img src="Photo2/hf_20260222_103301_bda076c3-d140-467e-9c2e-b84be10b2249.jpeg" alt="Three looks" loading="lazy">
+            </div>
+            <div class="sf-trio">
+                <div class="sf-trio-item reveal reveal-d1">
+                    <img src="Photo2/hf_20260222_111557_4b05ffcf-5fa8-4c4c-8043-c63b028ccb38.jpeg" alt="Street casual" loading="lazy">
+                </div>
+                <div class="sf-trio-item reveal reveal-d2">
+                    <img src="Photo2/hf_20260222_101049_ef351d4b-e565-4344-817f-e6db303d69c9.jpeg" alt="Urban chic" loading="lazy">
+                </div>
+                <div class="sf-trio-item reveal reveal-d3">
+                    <img src="Photo2/hf_20260222_105001_6f16104c-a88b-45cc-9ec3-51966fb09b8e.jpeg" alt="White elegance" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         8. WISHES
+         ========================================== -->
+    <section class="wishes page-section" data-theme="light">
+        <div class="wishes-header">
+            <div class="wishes-header-line"></div>
+            <div class="wishes-header-center">
+                <div class="wishes-label reveal">Birthday Wishes</div>
+                <h2 class="wishes-title reveal reveal-d1">Бажаю <em>конкретно</em></h2>
+            </div>
+            <div class="wishes-header-line"></div>
+        </div>
+
+        <div class="w-grid reveal">
+            <div class="w-card">
+                <span class="w-card-num">01</span>
+                <span class="w-card-icon">&#9994;</span>
+                <div class="w-card-title">Рішучості</div>
+                <div class="w-card-text">Тієї, що каже &laquo;беру&raquo; до останнього розміру в магазині і &laquo;ні&raquo; тому, що не варте часу</div>
+            </div>
+            <div class="w-card">
+                <span class="w-card-num">02</span>
+                <span class="w-card-icon">&#9889;</span>
+                <div class="w-card-title">Енергії</div>
+                <div class="w-card-text">Щоб вистачало і на ранкову пробіжку, і на вечірню авантюру, і на нову ідею о третій ночі</div>
+            </div>
+            <div class="w-card">
+                <span class="w-card-num">03</span>
+                <span class="w-card-icon">&#9992;</span>
+                <div class="w-card-title">Подорожей</div>
+                <div class="w-card-text">Таких, після яких фотоплівки не вистачає, а stories закінчуються лише на третій день</div>
+            </div>
+            <div class="w-card">
+                <span class="w-card-num">04</span>
+                <span class="w-card-icon">&#10024;</span>
+                <div class="w-card-title">Моментів</div>
+                <div class="w-card-text">Коли раптом розумієш: ось воно, саме тут, саме зараз &mdash; і все ідеально</div>
+            </div>
+            <div class="w-card">
+                <span class="w-card-num">05</span>
+                <span class="w-card-icon">&#9749;</span>
+                <div class="w-card-title">Ранків</div>
+                <div class="w-card-text">З ідеальним латте, без будильника і з відчуттям, що попереду &mdash; тільки хороше</div>
+            </div>
+            <div class="w-card">
+                <span class="w-card-num">06</span>
+                <span class="w-card-icon">&#128142;</span>
+                <div class="w-card-title">Впевненості</div>
+                <div class="w-card-text">Що ти на своєму місці, у своєму стилі і на правильному шляху. Бо так і є</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         9. HOROSCOPE
          ========================================== -->
     <section class="horoscope page-section" data-theme="dark">
         <div class="horo-stars" id="horoStars"></div>
 
         <div class="horo-label reveal">Your Stars</div>
-        <div class="horo-symbol reveal reveal-delay-1">&#9811;</div>
-        <h2 class="horo-sign reveal reveal-delay-1">Риби</h2>
-        <div class="horo-date reveal reveal-delay-2">19 лютого &mdash; 20 березня</div>
-        <div class="horo-line reveal reveal-delay-2"></div>
+        <div class="horo-symbol reveal reveal-d1">&#9811;</div>
+        <h2 class="horo-sign reveal reveal-d1">Риби</h2>
+        <div class="horo-date reveal reveal-d2">19 лютого &mdash; 20 березня</div>
+        <div class="horo-line2 reveal reveal-d2"></div>
 
-        <p class="horo-text reveal reveal-delay-3">
-            Зірки кажуть, що цей рік буде наповнений яскравими подіями, новими знайомствами та несподіваними подарунками долі. Твоя інтуїція &mdash; найкращий компас. Довіряй їй, і Всесвіт відкриє тобі всі двері.
+        <p class="horo-text reveal reveal-d3">
+            Цього року зірки нарешті перестали натякати і&nbsp;кажуть прямо: час перестати сумніватися в&nbsp;собі. Всесвіт вже давно вирішив, що ти заслуговуєш на все найкраще &mdash; залишилось тільки тобі з&nbsp;цим погодитись. Інтуїція цього року &mdash; твій головний аксесуар. Носи її щодня.
         </p>
 
-        <div class="horo-traits reveal reveal-delay-4">
+        <div class="horo-traits reveal reveal-d4">
             <div class="horo-trait">
                 <span class="horo-trait-label">Стихія</span>
                 <span class="horo-trait-value">Вода</span>
@@ -1450,7 +882,7 @@
             </div>
             <div class="horo-trait">
                 <span class="horo-trait-label">Колір року</span>
-                <span class="horo-trait-value">Rose</span>
+                <span class="horo-trait-value">Gold</span>
             </div>
             <div class="horo-trait">
                 <span class="horo-trait-label">Щасливе число</span>
@@ -1460,119 +892,110 @@
     </section>
 
     <!-- ==========================================
-         PAGE 8 — MAKE A WISH
+         10. MAKE A WISH
          ========================================== -->
     <section class="wish-page page-section" data-theme="light">
-        <div class="wish-page-label reveal">The Final Page</div>
-        <h2 class="wish-page-title reveal reveal-delay-1">Загадай<br><em>бажання</em></h2>
-        <p class="wish-page-subtitle reveal reveal-delay-2">Закрий очі, зроби глибокий вдих і натисни</p>
+        <div class="wp-label reveal">The Final Page</div>
+        <h2 class="wp-title reveal reveal-d1">Тепер<br><em>загадай</em></h2>
+        <p class="wp-sub reveal reveal-d2">Закрий очі. Подумай. Натисни.</p>
 
-        <button class="btn reveal reveal-delay-3" onclick="celebrate()">Загадай бажання</button>
+        <button class="btn reveal reveal-d3" onclick="celebrate()">Загадати бажання</button>
 
-        <div class="wish-page-footer reveal reveal-delay-4">
-            <p class="wish-page-quote">&laquo;Мода минає, стиль залишається&raquo;</p>
-            <span class="wish-page-cite">&mdash; Coco Chanel</span>
+        <div class="wp-footer reveal reveal-d4">
+            <p class="wp-quote">&laquo;Мода &mdash; це те, що пропонують дизайнери. Стиль &mdash; те, що обираєш ти&raquo;</p>
+            <span class="wp-cite">&mdash; Lauren Hutton</span>
         </div>
     </section>
 
     <!-- ==========================================
-         PAGE 9 — BACK COVER
+         11. BACK COVER
          ========================================== -->
     <section class="back-cover page-section" data-theme="dark">
         <div class="bc-monogram">K</div>
         <div class="bc-content">
             <div class="bc-logo reveal">KATYA</div>
-            <div class="bc-line reveal reveal-delay-1"></div>
-            <p class="bc-text reveal reveal-delay-2">Birthday Edition &middot; Issue N&deg;01</p>
-            <p class="bc-text reveal reveal-delay-2">22 February 2026</p>
-            <div class="bc-year reveal reveal-delay-3">Made with love &middot; MMXXVI</div>
+            <div class="bc-line reveal reveal-d1"></div>
+            <p class="bc-text reveal reveal-d2">Birthday Edition &middot; Issue N&deg;01</p>
+            <p class="bc-text reveal reveal-d2">22 February 2026</p>
+            <div class="bc-year reveal reveal-d3">MMXXVI</div>
         </div>
     </section>
 
     <script>
-        // === Floating Petals ===
-        (function createPetals() {
-            var colors = ['#D4A0A7', '#C48B91', '#B8977E', '#D4C4B0', '#E8DDD4'];
-            for (var i = 0; i < 10; i++) {
-                var petal = document.createElement('div');
-                petal.className = 'petal';
-                var size = 8 + Math.random() * 14;
-                petal.style.width = size + 'px';
-                petal.style.height = size + 'px';
-                petal.style.left = Math.random() * 100 + '%';
-                petal.style.animationDuration = (14 + Math.random() * 20) + 's';
-                petal.style.animationDelay = (Math.random() * 20) + 's';
-                var color = colors[Math.floor(Math.random() * colors.length)];
-                petal.innerHTML = '<svg viewBox="0 0 20 20"><ellipse cx="10" cy="10" rx="10" ry="6" fill="' + color + '" opacity="0.25"/></svg>';
-                document.body.appendChild(petal);
-            }
-        })();
-
-        // === Scroll Reveal ===
-        (function initReveal() {
-            var reveals = document.querySelectorAll('.reveal');
-            var observer = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
+        // Scroll Reveal
+        (function() {
+            var els = document.querySelectorAll('.reveal');
+            var obs = new IntersectionObserver(function(entries) {
+                entries.forEach(function(e) {
+                    if (e.isIntersecting) e.target.classList.add('visible');
                 });
-            }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-            reveals.forEach(function(el) { observer.observe(el); });
+            }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+            els.forEach(function(el) { obs.observe(el); });
         })();
 
-        // === Page Navigation ===
-        (function initPageNav() {
-            var sections = document.querySelectorAll('.page-section');
+        // Page Nav
+        (function() {
+            var secs = document.querySelectorAll('.page-section');
             var dots = document.querySelectorAll('.page-nav-dot');
-
-            dots.forEach(function(dot) {
-                dot.addEventListener('click', function() {
-                    var idx = parseInt(this.getAttribute('data-page'));
-                    sections[idx].scrollIntoView({ behavior: 'smooth' });
+            dots.forEach(function(d) {
+                d.addEventListener('click', function() {
+                    var i = parseInt(this.getAttribute('data-page'));
+                    secs[i].scrollIntoView({ behavior: 'smooth' });
                 });
             });
-
-            var navObserver = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting) {
-                        var idx = Array.from(sections).indexOf(entry.target);
-                        dots.forEach(function(d, i) {
-                            d.classList.toggle('active', i === idx);
-                        });
+            var obs = new IntersectionObserver(function(entries) {
+                entries.forEach(function(e) {
+                    if (e.isIntersecting) {
+                        var i = Array.from(secs).indexOf(e.target);
+                        dots.forEach(function(d, j) { d.classList.toggle('active', j === i); });
                     }
                 });
-            }, { threshold: 0.4 });
-
-            sections.forEach(function(s) { navObserver.observe(s); });
+            }, { threshold: 0.35 });
+            secs.forEach(function(s) { obs.observe(s); });
         })();
 
-        // === Horoscope Stars ===
-        (function createStars() {
-            var container = document.getElementById('horoStars');
-            if (!container) return;
-            for (var i = 0; i < 60; i++) {
-                var star = document.createElement('div');
-                star.style.position = 'absolute';
-                star.style.width = (1 + Math.random() * 2) + 'px';
-                star.style.height = star.style.width;
-                star.style.background = '#FAF7F4';
-                star.style.borderRadius = '50%';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.opacity = (0.1 + Math.random() * 0.4).toString();
-                star.style.animation = 'starTwinkle ' + (2 + Math.random() * 4) + 's ease-in-out infinite';
-                star.style.animationDelay = (Math.random() * 3) + 's';
-                container.appendChild(star);
+        // Stars
+        (function() {
+            var c = document.getElementById('horoStars');
+            if (!c) return;
+            for (var i = 0; i < 70; i++) {
+                var s = document.createElement('div');
+                s.style.cssText = 'position:absolute;border-radius:50%;background:#FAFAFA;'
+                    + 'width:' + (1 + Math.random() * 2) + 'px;'
+                    + 'height:' + s.style.width + ';'
+                    + 'left:' + (Math.random() * 100) + '%;'
+                    + 'top:' + (Math.random() * 100) + '%;'
+                    + 'opacity:' + (0.1 + Math.random() * 0.4) + ';'
+                    + 'animation:tw ' + (2 + Math.random() * 4) + 's ease-in-out infinite ' + (Math.random() * 3) + 's;';
+                var sz = 1 + Math.random() * 2;
+                s.style.width = sz + 'px';
+                s.style.height = sz + 'px';
+                c.appendChild(s);
             }
-
-            var style = document.createElement('style');
-            style.textContent = '@keyframes starTwinkle { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.6; } }';
-            document.head.appendChild(style);
+            var st = document.createElement('style');
+            st.textContent = '@keyframes tw{0%,100%{opacity:.1}50%{opacity:.6}}';
+            document.head.appendChild(st);
         })();
 
-        // === Confetti ===
+        // Horizontal gallery drag scroll
+        (function() {
+            var el = document.getElementById('hgTrack');
+            if (!el) return;
+            var isDown = false, startX, scrollL;
+            el.addEventListener('mousedown', function(e) {
+                isDown = true; el.style.cursor = 'grabbing';
+                startX = e.pageX - el.offsetLeft; scrollL = el.scrollLeft;
+            });
+            el.addEventListener('mouseleave', function() { isDown = false; el.style.cursor = 'grab'; });
+            el.addEventListener('mouseup', function() { isDown = false; el.style.cursor = 'grab'; });
+            el.addEventListener('mousemove', function(e) {
+                if (!isDown) return; e.preventDefault();
+                var x = e.pageX - el.offsetLeft;
+                el.scrollLeft = scrollL - (x - startX);
+            });
+        })();
+
+        // Confetti
         function celebrate() {
             var canvas = document.getElementById('confettiCanvas');
             var ctx = canvas.getContext('2d');
@@ -1580,20 +1003,20 @@
             canvas.height = window.innerHeight;
 
             var pieces = [];
-            var colors = ['#D4A0A7', '#C48B91', '#B8977E', '#D4C4B0', '#E8DDD4', '#F5EDE6', '#9B6B6B', '#A67178'];
+            var colors = ['#C9A96E', '#E0D1B8', '#A8D0E6', '#FAFAFA', '#0A0A0A', '#888', '#D4A574'];
 
-            for (var i = 0; i < 200; i++) {
+            for (var i = 0; i < 220; i++) {
                 pieces.push({
-                    x: canvas.width / 2 + (Math.random() - 0.5) * 400,
+                    x: canvas.width / 2 + (Math.random() - 0.5) * 500,
                     y: canvas.height / 2,
-                    vx: (Math.random() - 0.5) * 14,
-                    vy: -8 - Math.random() * 12,
-                    w: 4 + Math.random() * 6,
-                    h: 3 + Math.random() * 7,
+                    vx: (Math.random() - 0.5) * 16,
+                    vy: -9 - Math.random() * 13,
+                    w: 4 + Math.random() * 7,
+                    h: 3 + Math.random() * 8,
                     color: colors[Math.floor(Math.random() * colors.length)],
                     rotation: Math.random() * 360,
-                    rotationSpeed: (Math.random() - 0.5) * 10,
-                    gravity: 0.1 + Math.random() * 0.07,
+                    rs: (Math.random() - 0.5) * 10,
+                    g: 0.1 + Math.random() * 0.08,
                     opacity: 1
                 });
             }
@@ -1602,26 +1025,20 @@
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 var alive = false;
-
                 pieces.forEach(function(p) {
                     if (p.opacity <= 0) return;
                     alive = true;
-                    p.vy += p.gravity;
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.vx *= 0.99;
-                    p.rotation += p.rotationSpeed;
-                    if (frame > 60) p.opacity -= 0.01;
-
+                    p.vy += p.g; p.x += p.vx; p.y += p.vy;
+                    p.vx *= 0.99; p.rotation += p.rs;
+                    if (frame > 70) p.opacity -= 0.012;
                     ctx.save();
                     ctx.globalAlpha = Math.max(0, p.opacity);
                     ctx.translate(p.x, p.y);
-                    ctx.rotate((p.rotation * Math.PI) / 180);
+                    ctx.rotate(p.rotation * Math.PI / 180);
                     ctx.fillStyle = p.color;
                     ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
                     ctx.restore();
                 });
-
                 frame++;
                 if (alive) requestAnimationFrame(animate);
                 else ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1630,9 +1047,8 @@
         }
 
         window.addEventListener('resize', function() {
-            var canvas = document.getElementById('confettiCanvas');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            var c = document.getElementById('confettiCanvas');
+            c.width = window.innerWidth; c.height = window.innerHeight;
         });
     </script>
 
