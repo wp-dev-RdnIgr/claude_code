@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday, Katya</title>
+    <title>KATYA — Birthday Edition</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <style>
         :root {
             --color-bg: #FAF7F4;
             --color-bg-warm: #F5EDE6;
+            --color-bg-dark: #2D2926;
+            --color-bg-cream: #F0EAE4;
             --color-card: #FFFFFF;
             --color-blush: #D4A0A7;
             --color-rose: #C48B91;
+            --color-rose-deep: #A67178;
             --color-gold: #B8977E;
             --color-gold-light: #D4C4B0;
             --color-accent: #9B6B6B;
@@ -22,54 +25,37 @@
             --color-text-muted: #9B9088;
             --color-border: #E8DDD4;
             --color-surface: #F0EAE4;
-            --serif: 'Cormorant Garamond', 'Georgia', serif;
+            --serif: 'Playfair Display', 'Cormorant Garamond', 'Georgia', serif;
+            --serif-body: 'Cormorant Garamond', 'Georgia', serif;
             --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         html { scroll-behavior: smooth; }
 
         body {
             font-family: var(--sans);
             background: var(--color-bg);
             color: var(--color-text);
-            min-height: 100vh;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* === Subtle Background === */
-        .bg-accent {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
+        /* === Scroll Reveal === */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.9s cubic-bezier(0.25, 0, 0.25, 1), transform 0.9s cubic-bezier(0.25, 0, 0.25, 1);
         }
-
-        .bg-accent::before {
-            content: '';
-            position: absolute;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(212,160,167,0.08) 0%, transparent 70%);
-            top: -300px;
-            right: -200px;
-            border-radius: 50%;
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
-
-        .bg-accent::after {
-            content: '';
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(184,151,126,0.06) 0%, transparent 70%);
-            bottom: -200px;
-            left: -150px;
-            border-radius: 50%;
-        }
+        .reveal-delay-1 { transition-delay: 0.15s; }
+        .reveal-delay-2 { transition-delay: 0.3s; }
+        .reveal-delay-3 { transition-delay: 0.45s; }
+        .reveal-delay-4 { transition-delay: 0.6s; }
 
         /* === Floating Petals === */
         .petal {
@@ -79,384 +65,1132 @@
             opacity: 0;
             animation: petalFall linear infinite;
         }
-
-        .petal svg {
-            width: 100%;
-            height: 100%;
-        }
+        .petal svg { width: 100%; height: 100%; }
 
         @keyframes petalFall {
-            0% {
-                transform: translateY(-10vh) rotate(0deg) translateX(0);
-                opacity: 0;
-            }
-            8% { opacity: 0.4; }
+            0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
+            8% { opacity: 0.3; }
             50% { transform: translateY(50vh) rotate(180deg) translateX(30px); }
-            92% { opacity: 0.3; }
-            100% {
-                transform: translateY(105vh) rotate(360deg) translateX(-20px);
-                opacity: 0;
-            }
+            92% { opacity: 0.2; }
+            100% { transform: translateY(105vh) rotate(360deg) translateX(-20px); opacity: 0; }
         }
 
-        /* === Layout === */
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 680px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* === Top Nav Bar (decorative) === */
-        .top-bar {
+        /* === Page Navigation Dots === */
+        .page-nav {
+            position: fixed;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 50;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 28px 0;
-            border-bottom: 1px solid var(--color-border);
-            margin-bottom: 0;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .page-nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-gold-light);
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            padding: 0;
+        }
+        .page-nav-dot.active {
+            background: var(--color-rose);
+            transform: scale(1.3);
+        }
+        .page-nav-dot:hover {
+            background: var(--color-blush);
+            transform: scale(1.2);
         }
 
-        .top-bar-brand {
+        /* =============================================
+           PAGE 1 — MAGAZINE COVER
+           ============================================= */
+        .cover {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            background: var(--color-bg);
+        }
+
+        .cover-masthead {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 28px 48px;
+            border-bottom: 1px solid var(--color-border);
+            position: relative;
+            z-index: 2;
+        }
+        .cover-masthead-left,
+        .cover-masthead-right {
+            font-family: var(--sans);
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+        }
+        .cover-masthead-center {
             font-family: var(--serif);
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 400;
-            letter-spacing: 4px;
+            letter-spacing: 6px;
             text-transform: uppercase;
             color: var(--color-text-soft);
         }
 
-        /* === Hero Section === */
-        .hero {
-            text-align: center;
-            padding: 80px 0 60px;
-            animation: fadeIn 1.2s ease-out;
-        }
-
-        .hero-eyebrow {
-            font-family: var(--sans);
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: 3.5px;
-            text-transform: uppercase;
-            color: var(--color-blush);
-            margin-bottom: 28px;
-            display: block;
-        }
-
-        .hero-title {
-            font-family: var(--serif);
-            font-size: clamp(52px, 11vw, 96px);
-            font-weight: 300;
-            line-height: 1.05;
-            color: var(--color-text);
-            margin-bottom: 12px;
-            letter-spacing: -1px;
-        }
-
-        .hero-title em {
-            font-style: italic;
-            font-weight: 400;
-            color: var(--color-rose);
-        }
-
-        .hero-line {
-            width: 48px;
-            height: 1px;
-            background: var(--color-gold-light);
-            margin: 32px auto;
-        }
-
-        .hero-subtitle {
-            font-family: var(--serif);
-            font-size: clamp(16px, 3vw, 20px);
-            font-weight: 300;
-            font-style: italic;
-            color: var(--color-text-muted);
-            line-height: 1.6;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        /* === Editorial Image === */
-        .editorial {
-            margin: 0 -24px 60px;
-            animation: fadeInUp 1s ease-out 0.3s both;
-        }
-
-        .editorial-frame {
+        .cover-body {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
-            overflow: hidden;
-            aspect-ratio: 3 / 4;
-            max-height: 580px;
+            padding: 40px;
         }
 
-        .editorial-frame img {
+        .cover-image-bg {
+            position: absolute;
+            inset: 40px;
+            overflow: hidden;
+        }
+        .cover-image-bg img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
-            filter: saturate(0.85) contrast(1.02);
-            transition: transform 0.8s cubic-bezier(0.25, 0, 0.25, 1), filter 0.8s ease;
+            filter: saturate(0.7) brightness(0.95) contrast(1.05);
         }
-
-        .editorial-frame:hover img {
-            transform: scale(1.03);
-            filter: saturate(1) contrast(1.02);
-        }
-
-        .editorial-frame::after {
+        .cover-image-bg::after {
             content: '';
             position: absolute;
             inset: 0;
             background: linear-gradient(
                 to bottom,
-                rgba(250,247,244,0.1) 0%,
-                transparent 30%,
-                transparent 60%,
-                rgba(250,247,244,0.4) 100%
+                rgba(250,247,244,0.3) 0%,
+                rgba(250,247,244,0.05) 30%,
+                rgba(250,247,244,0.05) 50%,
+                rgba(250,247,244,0.6) 85%,
+                rgba(250,247,244,0.95) 100%
             );
-            pointer-events: none;
         }
 
-        .editorial-caption {
+        .cover-content {
+            position: relative;
+            z-index: 2;
             text-align: center;
-            padding: 20px 24px 0;
-            font-family: var(--serif);
-            font-size: 13px;
-            font-style: italic;
-            color: var(--color-text-muted);
-            letter-spacing: 0.5px;
+            max-width: 800px;
         }
 
-        /* === Message Card === */
-        .message {
-            background: var(--color-card);
-            border: 1px solid var(--color-border);
-            padding: 52px 44px;
-            margin-bottom: 48px;
-            text-align: center;
-            animation: fadeInUp 1s ease-out 0.5s both;
-        }
-
-        .message-icon {
-            font-family: var(--serif);
-            font-size: 32px;
-            color: var(--color-gold-light);
-            margin-bottom: 28px;
-            display: block;
-        }
-
-        .message-quote {
-            font-family: var(--serif);
-            font-size: clamp(22px, 4vw, 30px);
-            font-weight: 300;
-            font-style: italic;
-            color: var(--color-text);
-            line-height: 1.5;
-            margin-bottom: 28px;
-        }
-
-        .message-divider {
-            width: 32px;
-            height: 1px;
-            background: var(--color-border);
-            margin: 0 auto 28px;
-        }
-
-        .message-text {
+        .cover-issue {
             font-family: var(--sans);
-            font-size: 15px;
-            line-height: 1.9;
-            color: var(--color-text-soft);
-        }
-
-        .message-text p {
-            margin-bottom: 16px;
-        }
-
-        .message-text p:last-child {
-            margin-bottom: 0;
-        }
-
-        .message-text strong {
-            color: var(--color-text);
+            font-size: 10px;
             font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--color-rose);
+            margin-bottom: 24px;
         }
 
-        /* === Wishes Grid === */
-        .wishes-section {
-            margin-bottom: 48px;
-            animation: fadeInUp 1s ease-out 0.7s both;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 36px;
-        }
-
-        .section-header h2 {
+        .cover-title {
             font-family: var(--serif);
-            font-size: clamp(28px, 5vw, 38px);
-            font-weight: 300;
+            font-size: clamp(72px, 15vw, 180px);
+            font-weight: 700;
+            line-height: 0.9;
             color: var(--color-text);
-            margin-bottom: 8px;
+            letter-spacing: -3px;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 40px rgba(250,247,244,0.8);
         }
 
-        .section-header h2 em {
+        .cover-tagline {
+            font-family: var(--serif-body);
+            font-size: clamp(18px, 3vw, 28px);
+            font-weight: 300;
             font-style: italic;
-            font-weight: 400;
-        }
-
-        .section-header-line {
-            width: 32px;
-            height: 1px;
-            background: var(--color-gold-light);
-            margin: 16px auto 0;
-        }
-
-        .wishes-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            margin-bottom: 40px;
-        }
-
-        .wish-card {
-            background: var(--color-card);
-            border: 1px solid var(--color-border);
-            padding: 28px 20px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.25, 0, 0.25, 1);
-        }
-
-        .wish-card:hover {
-            border-color: var(--color-blush);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(212,160,167,0.1);
-        }
-
-        .wish-card .wish-symbol {
-            font-family: var(--serif);
-            font-size: 28px;
-            font-style: italic;
-            color: var(--color-blush);
-            margin-bottom: 12px;
-            display: block;
-        }
-
-        .wish-card .wish-text {
-            font-family: var(--sans);
-            font-size: 13px;
-            font-weight: 400;
             color: var(--color-text-soft);
-            letter-spacing: 0.5px;
-            line-height: 1.5;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 20px rgba(250,247,244,0.8);
         }
 
-        /* === CTA Button === */
-        .cta-wrap {
-            text-align: center;
-            margin-bottom: 48px;
-            animation: fadeInUp 1s ease-out 0.9s both;
+        .cover-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 0 48px 36px;
+            position: relative;
+            z-index: 2;
         }
 
-        .btn {
-            display: inline-block;
-            padding: 16px 44px;
-            background: var(--color-text);
-            color: var(--color-bg);
-            border: none;
+        .cover-headlines {
+            display: flex;
+            gap: 48px;
+        }
+        .cover-headline-item {
+            text-align: left;
+        }
+        .cover-headline-label {
             font-family: var(--sans);
-            font-size: 12px;
+            font-size: 9px;
             font-weight: 500;
             letter-spacing: 2.5px;
             text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.25, 0, 0.25, 1);
+            color: var(--color-text-muted);
+            margin-bottom: 4px;
+        }
+        .cover-headline-text {
+            font-family: var(--serif-body);
+            font-size: 16px;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--color-text-soft);
+        }
+
+        .cover-scroll-hint {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: gentleBounce 2s ease-in-out infinite;
+        }
+        .cover-scroll-hint::after {
+            content: '';
+            display: block;
+            width: 20px;
+            height: 1px;
+            background: var(--color-text-muted);
+        }
+
+        @keyframes gentleBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(4px); }
+        }
+
+        /* =============================================
+           PAGE 2 — EDITOR'S LETTER
+           ============================================= */
+        .editors-letter {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 100px 48px;
+            position: relative;
+            background: var(--color-card);
+        }
+
+        .editors-letter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--color-border);
+        }
+
+        .el-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .el-left {
+            position: relative;
+        }
+
+        .el-page-label {
+            font-family: var(--sans);
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--color-blush);
+            margin-bottom: 32px;
+        }
+
+        .el-title {
+            font-family: var(--serif);
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 600;
+            line-height: 1.1;
+            color: var(--color-text);
+            margin-bottom: 12px;
+        }
+        .el-title em {
+            font-style: italic;
+            color: var(--color-rose);
+        }
+
+        .el-line {
+            width: 48px;
+            height: 1.5px;
+            background: var(--color-gold);
+            margin: 28px 0;
+        }
+
+        .el-dropcap {
+            font-family: var(--serif);
+            font-size: 72px;
+            font-weight: 700;
+            float: left;
+            line-height: 0.8;
+            margin-right: 12px;
+            margin-top: 6px;
+            color: var(--color-rose);
+        }
+
+        .el-text {
+            font-family: var(--serif-body);
+            font-size: 19px;
+            font-weight: 400;
+            line-height: 1.8;
+            color: var(--color-text-soft);
+        }
+        .el-text p {
+            margin-bottom: 20px;
+        }
+        .el-text strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+
+        .el-signature {
+            font-family: var(--serif);
+            font-size: 22px;
+            font-style: italic;
+            color: var(--color-rose);
+            margin-top: 12px;
+        }
+
+        .el-right {
+            position: relative;
+        }
+        .el-image-frame {
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            position: relative;
+        }
+        .el-image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(0.8) contrast(1.03);
+            transition: transform 0.8s cubic-bezier(0.25,0,0.25,1);
+        }
+        .el-image-frame:hover img {
+            transform: scale(1.03);
+        }
+        .el-image-frame::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid rgba(255,255,255,0.3);
+            pointer-events: none;
+        }
+        .el-image-caption {
+            font-family: var(--sans);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            margin-top: 16px;
+            text-align: right;
+        }
+
+        /* =============================================
+           PAGE 3 — FULL BLEED QUOTE
+           ============================================= */
+        .fullbleed-quote {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: var(--color-bg-dark);
+        }
+
+        .fullbleed-quote-bg {
+            position: absolute;
+            inset: 0;
+        }
+        .fullbleed-quote-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            filter: saturate(0.4) contrast(1.1);
+        }
+
+        .fullbleed-quote-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 48px;
+            max-width: 800px;
+        }
+
+        .fq-decorator {
+            font-family: var(--serif);
+            font-size: 120px;
+            font-weight: 300;
+            color: var(--color-gold);
+            opacity: 0.4;
+            line-height: 0.5;
+            margin-bottom: 20px;
+        }
+
+        .fq-text {
+            font-family: var(--serif);
+            font-size: clamp(28px, 5vw, 52px);
+            font-weight: 400;
+            font-style: italic;
+            color: #FAF7F4;
+            line-height: 1.4;
+            margin-bottom: 32px;
+        }
+
+        .fq-line {
+            width: 48px;
+            height: 1px;
+            background: var(--color-gold);
+            margin: 0 auto 24px;
+        }
+
+        .fq-author {
+            font-family: var(--sans);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--color-gold-light);
+        }
+
+        /* =============================================
+           PAGE 4 — EDITORIAL SPREAD (PHOTO STORY)
+           ============================================= */
+        .photo-story {
+            min-height: 100vh;
+            padding: 100px 48px;
+            position: relative;
+            background: var(--color-bg);
+        }
+
+        .ps-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+        .ps-label {
+            font-family: var(--sans);
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--color-blush);
+            margin-bottom: 20px;
+        }
+        .ps-title {
+            font-family: var(--serif);
+            font-size: clamp(32px, 5vw, 52px);
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 8px;
+        }
+        .ps-title em {
+            font-style: italic;
+            color: var(--color-rose);
+        }
+        .ps-subtitle {
+            font-family: var(--serif-body);
+            font-size: 18px;
+            font-style: italic;
+            color: var(--color-text-muted);
+        }
+
+        .ps-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: auto;
+            gap: 20px;
+        }
+
+        .ps-item {
+            position: relative;
+            overflow: hidden;
+        }
+        .ps-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: saturate(0.8) contrast(1.02);
+            transition: transform 0.8s cubic-bezier(0.25,0,0.25,1), filter 0.6s ease;
+        }
+        .ps-item:hover img {
+            transform: scale(1.04);
+            filter: saturate(1) contrast(1.02);
+        }
+        .ps-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 60%, rgba(45,41,38,0.2) 100%);
+            pointer-events: none;
+        }
+
+        .ps-item-1 {
+            grid-column: 1 / 8;
+            aspect-ratio: 4/5;
+        }
+        .ps-item-2 {
+            grid-column: 8 / 13;
+            aspect-ratio: 3/4;
+        }
+        .ps-item-3 {
+            grid-column: 1 / 5;
+            aspect-ratio: 1/1;
+        }
+        .ps-item-4 {
+            grid-column: 5 / 9;
+            aspect-ratio: 1/1;
+        }
+        .ps-item-5 {
+            grid-column: 9 / 13;
+            aspect-ratio: 1/1;
+        }
+
+        .ps-item-overlay {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 2;
+            color: #FAF7F4;
+        }
+        .ps-item-overlay span {
+            font-family: var(--sans);
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: rgba(45,41,38,0.5);
+            padding: 6px 12px;
+            backdrop-filter: blur(4px);
+        }
+
+        /* =============================================
+           PAGE 5 — WISHES (MAGAZINE FEATURE)
+           ============================================= */
+        .wishes-feature {
+            min-height: 100vh;
+            padding: 100px 48px;
+            background: var(--color-card);
+            position: relative;
+        }
+
+        .wishes-feature::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: var(--color-border);
+        }
+
+        .wf-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .wf-header {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+        .wf-header-line {
+            height: 1px;
+            background: var(--color-border);
+        }
+        .wf-header-center {
+            text-align: center;
+        }
+        .wf-header-label {
+            font-family: var(--sans);
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--color-blush);
+            margin-bottom: 12px;
+        }
+        .wf-header-title {
+            font-family: var(--serif);
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 600;
+            color: var(--color-text);
+        }
+        .wf-header-title em {
+            font-style: italic;
+            color: var(--color-rose);
+        }
+
+        .wf-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--color-border);
+            border: 1px solid var(--color-border);
+        }
+
+        .wf-card {
+            background: var(--color-card);
+            padding: 48px 32px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.25,0,0.25,1);
+            position: relative;
+        }
+        .wf-card:hover {
+            background: var(--color-bg);
+        }
+
+        .wf-card-number {
+            font-family: var(--serif);
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--color-gold-light);
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .wf-card-symbol {
+            font-family: var(--serif);
+            font-size: 36px;
+            color: var(--color-blush);
+            margin-bottom: 16px;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .wf-card:hover .wf-card-symbol {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .wf-card-title {
+            font-family: var(--serif);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        .wf-card-text {
+            font-family: var(--serif-body);
+            font-size: 16px;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+        }
+
+        /* =============================================
+           PAGE 6 — BEAUTY TIPS (FUN MAGAZINE SECTION)
+           ============================================= */
+        .beauty-section {
+            min-height: 100vh;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+            background: var(--color-bg-warm);
+        }
+
+        .beauty-left {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        .beauty-left img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(0.75) contrast(1.05);
+        }
+        .beauty-left::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, transparent 50%, var(--color-bg-warm) 100%);
+        }
+
+        .beauty-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px 64px;
+        }
+
+        .beauty-label {
+            font-family: var(--sans);
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--color-blush);
+            margin-bottom: 24px;
+        }
+
+        .beauty-title {
+            font-family: var(--serif);
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 8px;
+            line-height: 1.1;
+        }
+        .beauty-title em {
+            font-style: italic;
+            color: var(--color-rose);
+        }
+
+        .beauty-subtitle {
+            font-family: var(--serif-body);
+            font-size: 18px;
+            font-style: italic;
+            color: var(--color-text-muted);
+            margin-bottom: 40px;
+        }
+
+        .beauty-tips {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .beauty-tip {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .beauty-tip-num {
+            font-family: var(--serif);
+            font-size: 32px;
+            font-weight: 300;
+            color: var(--color-gold-light);
+            line-height: 1;
+            min-width: 36px;
+        }
+
+        .beauty-tip-content h4 {
+            font-family: var(--serif);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 4px;
+        }
+        .beauty-tip-content p {
+            font-family: var(--serif-body);
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--color-text-soft);
+            line-height: 1.6;
+        }
+
+        /* =============================================
+           PAGE 7 — HOROSCOPE / STARS
+           ============================================= */
+        .horoscope {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-bg-dark);
+            padding: 80px 48px;
             position: relative;
             overflow: hidden;
         }
 
-        .btn:hover {
-            background: var(--color-rose);
-            transform: translateY(-1px);
-            box-shadow: 0 8px 24px rgba(196,139,145,0.25);
+        .horoscope::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border: 1px solid rgba(212,196,176,0.1);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .horoscope::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border: 1px solid rgba(212,196,176,0.07);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
+        .horo-stars {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .horo-label {
+            font-family: var(--sans);
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--color-gold);
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .horo-symbol {
+            font-size: 48px;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+            opacity: 0.8;
+        }
+
+        .horo-sign {
+            font-family: var(--serif);
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: 700;
+            color: #FAF7F4;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .horo-date {
+            font-family: var(--sans);
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--color-gold-light);
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .horo-line {
+            width: 48px;
+            height: 1px;
+            background: var(--color-gold);
+            opacity: 0.4;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .horo-text {
+            font-family: var(--serif-body);
+            font-size: clamp(18px, 2.5vw, 22px);
+            font-weight: 400;
+            font-style: italic;
+            color: rgba(250,247,244,0.7);
+            max-width: 560px;
+            text-align: center;
+            line-height: 1.8;
+            position: relative;
+            z-index: 2;
+        }
+
+        .horo-traits {
+            display: flex;
+            gap: 32px;
+            margin-top: 48px;
+            position: relative;
+            z-index: 2;
+        }
+        .horo-trait {
+            text-align: center;
+        }
+        .horo-trait-label {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--color-gold);
+            margin-bottom: 8px;
+            display: block;
+        }
+        .horo-trait-value {
+            font-family: var(--serif);
+            font-size: 18px;
+            font-weight: 500;
+            color: #FAF7F4;
+        }
+
+        /* =============================================
+           PAGE 8 — MAKE A WISH (INTERACTIVE)
+           ============================================= */
+        .wish-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-bg);
+            position: relative;
+            padding: 80px 48px;
+        }
+
+        .wish-page-label {
+            font-family: var(--sans);
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--color-blush);
+            margin-bottom: 32px;
+        }
+
+        .wish-page-title {
+            font-family: var(--serif);
+            font-size: clamp(42px, 8vw, 80px);
+            font-weight: 700;
+            color: var(--color-text);
+            text-align: center;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+        .wish-page-title em {
+            font-style: italic;
+            color: var(--color-rose);
+        }
+
+        .wish-page-subtitle {
+            font-family: var(--serif-body);
+            font-size: clamp(18px, 2.5vw, 24px);
+            font-weight: 300;
+            font-style: italic;
+            color: var(--color-text-muted);
+            margin-bottom: 52px;
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 56px;
+            background: var(--color-text);
+            color: var(--color-bg);
+            border: none;
+            font-family: var(--sans);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25,0,0.25,1);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn:hover {
+            background: var(--color-rose);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(196,139,145,0.3);
+        }
         .btn:active {
             transform: translateY(0);
         }
 
-        /* === Quote Footer === */
-        .footer-quote {
+        .wish-page-footer {
+            margin-top: 80px;
             text-align: center;
-            padding: 48px 0;
-            border-top: 1px solid var(--color-border);
-            margin-bottom: 40px;
-            animation: fadeInUp 1s ease-out 1.1s both;
         }
-
-        .footer-quote blockquote {
+        .wish-page-quote {
             font-family: var(--serif);
-            font-size: clamp(18px, 3.5vw, 24px);
-            font-weight: 300;
+            font-size: clamp(16px, 2.5vw, 22px);
+            font-weight: 400;
             font-style: italic;
             color: var(--color-text-soft);
-            max-width: 460px;
-            margin: 0 auto 16px;
-            line-height: 1.6;
+            margin-bottom: 12px;
+            max-width: 400px;
         }
-
-        .footer-quote cite {
+        .wish-page-cite {
             font-family: var(--sans);
-            font-style: normal;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 500;
             letter-spacing: 2px;
             text-transform: uppercase;
             color: var(--color-text-muted);
         }
 
-        .footer-bottom {
+        /* =============================================
+           PAGE 9 — BACK COVER
+           ============================================= */
+        .back-cover {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-bg-dark);
+            padding: 80px 48px;
+            position: relative;
+        }
+
+        .bc-monogram {
+            font-family: var(--serif);
+            font-size: clamp(80px, 15vw, 160px);
+            font-weight: 700;
+            color: rgba(250,247,244,0.06);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            letter-spacing: 20px;
+        }
+
+        .bc-content {
+            position: relative;
+            z-index: 2;
             text-align: center;
-            padding-bottom: 48px;
+        }
+
+        .bc-logo {
+            font-family: var(--serif);
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: var(--color-gold);
+            margin-bottom: 20px;
+        }
+
+        .bc-line {
+            width: 48px;
+            height: 1px;
+            background: var(--color-gold);
+            opacity: 0.3;
+            margin: 0 auto 20px;
+        }
+
+        .bc-text {
+            font-family: var(--serif-body);
+            font-size: 16px;
+            font-style: italic;
+            color: rgba(250,247,244,0.5);
+            margin-bottom: 6px;
+        }
+
+        .bc-year {
             font-family: var(--sans);
-            font-size: 11px;
-            color: var(--color-text-muted);
-            letter-spacing: 1px;
-        }
-
-        /* === Animations === */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(24px); }
-            to { opacity: 1; transform: translateY(0); }
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: rgba(250,247,244,0.3);
+            margin-top: 24px;
         }
 
         /* === Confetti Canvas === */
         #confettiCanvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             pointer-events: none;
             z-index: 100;
         }
 
-        /* === Responsive === */
-        @media (max-width: 480px) {
-            .container { padding: 0 20px; }
-            .hero { padding: 60px 0 48px; }
-            .message { padding: 36px 24px; }
-            .editorial { margin: 0 -20px 48px; }
-            .wishes-grid { grid-template-columns: 1fr; }
+        /* === RESPONSIVE === */
+        @media (max-width: 900px) {
+            .el-container {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+            .el-right { order: -1; }
+            .el-image-frame { max-height: 400px; }
+
+            .wf-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .beauty-section {
+                flex-direction: column;
+            }
+            .beauty-left {
+                height: 50vh;
+            }
+            .beauty-left::after {
+                background: linear-gradient(to bottom, transparent 50%, var(--color-bg-warm) 100%);
+            }
+            .beauty-right {
+                padding: 48px 32px;
+            }
+
+            .ps-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+            .ps-item-1 { grid-column: 1 / 7; aspect-ratio: 16/9; }
+            .ps-item-2 { grid-column: 1 / 4; }
+            .ps-item-3 { grid-column: 4 / 7; }
+            .ps-item-4 { grid-column: 1 / 4; }
+            .ps-item-5 { grid-column: 4 / 7; }
+
+            .cover-footer { flex-direction: column; gap: 20px; align-items: center; }
+            .cover-headlines { gap: 24px; }
+        }
+
+        @media (max-width: 600px) {
+            .cover-masthead { padding: 20px 24px; }
+            .cover-masthead-center { font-size: 11px; letter-spacing: 4px; }
+            .cover-masthead-left, .cover-masthead-right { font-size: 8px; }
+            .cover-body { padding: 24px; }
+            .cover-image-bg { inset: 20px; }
+            .cover-footer { padding: 0 24px 28px; }
+            .cover-headlines { display: none; }
+
+            .editors-letter { padding: 64px 24px; }
+            .el-container { gap: 32px; }
+
+            .photo-story { padding: 64px 24px; }
+            .ps-grid { grid-template-columns: 1fr; }
+            .ps-item-1, .ps-item-2, .ps-item-3, .ps-item-4, .ps-item-5 {
+                grid-column: 1 / -1;
+                aspect-ratio: 4/3;
+            }
+
+            .wishes-feature { padding: 64px 24px; }
+            .wf-grid { grid-template-columns: 1fr; }
+            .wf-header { grid-template-columns: 1fr; gap: 16px; }
+            .wf-header-line { display: none; }
+            .wf-card { padding: 36px 24px; }
+
+            .beauty-right { padding: 40px 24px; }
+
+            .horoscope { padding: 64px 24px; }
+            .horo-traits { gap: 20px; flex-wrap: wrap; justify-content: center; }
+
+            .wish-page { padding: 64px 24px; }
+
+            .back-cover { padding: 64px 24px; }
+
+            .page-nav { right: 12px; gap: 8px; }
+            .page-nav-dot { width: 6px; height: 6px; }
+
+            .fullbleed-quote-content { padding: 24px; }
         }
 
         /* Reduced motion */
@@ -466,176 +1200,425 @@
                 transition-duration: 0.01ms !important;
             }
             .petal { display: none; }
+            .reveal { opacity: 1; transform: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-accent"></div>
     <canvas id="confettiCanvas"></canvas>
 
-    <div class="container">
+    <!-- Page Navigation Dots -->
+    <nav class="page-nav" aria-label="Page navigation">
+        <button class="page-nav-dot active" data-page="0" aria-label="Cover"></button>
+        <button class="page-nav-dot" data-page="1" aria-label="Letter"></button>
+        <button class="page-nav-dot" data-page="2" aria-label="Quote"></button>
+        <button class="page-nav-dot" data-page="3" aria-label="Photos"></button>
+        <button class="page-nav-dot" data-page="4" aria-label="Wishes"></button>
+        <button class="page-nav-dot" data-page="5" aria-label="Beauty"></button>
+        <button class="page-nav-dot" data-page="6" aria-label="Stars"></button>
+        <button class="page-nav-dot" data-page="7" aria-label="Wish"></button>
+        <button class="page-nav-dot" data-page="8" aria-label="End"></button>
+    </nav>
 
-        <!-- Top Bar -->
-        <div class="top-bar">
-            <span class="top-bar-brand">Happy Birthday</span>
+    <!-- ==========================================
+         PAGE 1 — MAGAZINE COVER
+         ========================================== -->
+    <section class="cover page-section" data-theme="light">
+        <div class="cover-masthead">
+            <span class="cover-masthead-left">Issue N&deg;01</span>
+            <span class="cover-masthead-center">Birthday Edition</span>
+            <span class="cover-masthead-right">22.02.2026</span>
         </div>
 
-        <!-- Hero -->
-        <section class="hero">
-            <span class="hero-eyebrow">22 &middot; 02 &middot; 2026</span>
-            <h1 class="hero-title">
-                <em>Katya,</em><br>
-                з днем<br>
-                народження
-            </h1>
-            <div class="hero-line"></div>
-            <p class="hero-subtitle">Нехай цей день буде таким же прекрасним, як ти</p>
-        </section>
-
-        <!-- Editorial Image -->
-        <section class="editorial">
-            <div class="editorial-frame">
-                <img
-                    src="https://images.unsplash.com/photo-1490750967868-88aa4f44baee?w=800&q=80&auto=format"
-                    alt="Aesthetic floral"
-                    loading="eager"
-                >
+        <div class="cover-body">
+            <div class="cover-image-bg">
+                <img src="https://images.unsplash.com/photo-1490750967868-88aa4f44baee?w=1200&q=80&auto=format" alt="Aesthetic floral editorial" loading="eager">
             </div>
-            <p class="editorial-caption">beauty is in the details</p>
-        </section>
-
-        <!-- Message -->
-        <article class="message">
-            <span class="message-icon">&mdash;</span>
-            <p class="message-quote">
-                &laquo;Справжня краса &mdash; це коли естетика зовнішня збігається з внутрішньою&raquo;
-            </p>
-            <div class="message-divider"></div>
-            <div class="message-text">
-                <p>Катю, вітаю тебе з Днем народження! Бажаю, щоб кожен день був наповнений
-                   <strong>натхненням</strong>, <strong>красою</strong> та <strong>гармонією</strong>.</p>
-                <p>Нехай життя буде як ідеальна стрічка в Instagram &mdash;
-                   стильне, яскраве і сповнене моментів, від яких завмирає серце.</p>
-                <p>Щоб завжди був <strong>ідеальний outfit</strong>, <strong>теплий латте</strong>
-                   і люди поруч, які цінують тебе такою, якою ти є.</p>
+            <div class="cover-content">
+                <div class="cover-issue reveal">SPECIAL BIRTHDAY ISSUE</div>
+                <h1 class="cover-title reveal reveal-delay-1">KATYA</h1>
+                <p class="cover-tagline reveal reveal-delay-2">Нехай цей день буде таким же прекрасним, як ти</p>
             </div>
-        </article>
-
-        <!-- Wishes -->
-        <section class="wishes-section">
-            <div class="section-header">
-                <h2>Бажаю <em>тобі</em></h2>
-                <div class="section-header-line"></div>
-            </div>
-
-            <div class="wishes-grid">
-                <div class="wish-card">
-                    <span class="wish-symbol">&#10047;</span>
-                    <span class="wish-text">Краси та натхнення<br>у кожній деталі</span>
-                </div>
-                <div class="wish-card">
-                    <span class="wish-symbol">&#9829;</span>
-                    <span class="wish-text">Кохання, що надихає<br>і дарує крила</span>
-                </div>
-                <div class="wish-card">
-                    <span class="wish-symbol">&#10022;</span>
-                    <span class="wish-text">Яскравих подорожей<br>та нових вражень</span>
-                </div>
-                <div class="wish-card">
-                    <span class="wish-symbol">&#9825;</span>
-                    <span class="wish-text">Гармонії та<br>внутрішнього спокою</span>
-                </div>
-                <div class="wish-card">
-                    <span class="wish-symbol">&#10053;</span>
-                    <span class="wish-text">Стилю, який завжди<br>підкреслює тебе</span>
-                </div>
-                <div class="wish-card">
-                    <span class="wish-symbol">&#9733;</span>
-                    <span class="wish-text">Здійснення усіх<br>найзаповітніших мрій</span>
-                </div>
-            </div>
-
-            <!-- CTA -->
-            <div class="cta-wrap">
-                <button class="btn" onclick="celebrate()">Загадай бажання</button>
-            </div>
-        </section>
-
-        <!-- Footer Quote -->
-        <footer class="footer-quote">
-            <blockquote>&laquo;Мода минає, стиль залишається&raquo;</blockquote>
-            <cite>&mdash; Coco Chanel</cite>
-        </footer>
-
-        <div class="footer-bottom">
-            with love &middot; 2026
         </div>
 
-    </div>
+        <div class="cover-footer">
+            <div class="cover-headlines">
+                <div class="cover-headline-item">
+                    <div class="cover-headline-label">Inside</div>
+                    <div class="cover-headline-text">Побажання &amp; натхнення</div>
+                </div>
+                <div class="cover-headline-item">
+                    <div class="cover-headline-label">Exclusive</div>
+                    <div class="cover-headline-text">Зіркове передбачення</div>
+                </div>
+            </div>
+            <div class="cover-scroll-hint">Scroll</div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PAGE 2 — EDITOR'S LETTER
+         ========================================== -->
+    <section class="editors-letter page-section" data-theme="light">
+        <div class="el-container">
+            <div class="el-left">
+                <div class="el-page-label reveal">Editor's Letter</div>
+                <h2 class="el-title reveal reveal-delay-1">
+                    Дорога<br><em>Катю</em>
+                </h2>
+                <div class="el-line reveal reveal-delay-2"></div>
+                <div class="el-text reveal reveal-delay-2">
+                    <p><span class="el-dropcap">В</span>ітаю тебе з Днем народження! Бажаю, щоб кожен день був наповнений <strong>натхненням</strong>, <strong>красою</strong> та <strong>гармонією</strong>.</p>
+                    <p>Нехай життя буде як ідеальна стрічка в Instagram &mdash; стильне, яскраве і сповнене моментів, від яких завмирає серце.</p>
+                    <p>Щоб завжди був <strong>ідеальний outfit</strong>, <strong>теплий латте</strong> і люди поруч, які цінують тебе такою, якою ти є.</p>
+                </div>
+                <div class="el-signature reveal reveal-delay-3">З любов&rsquo;ю &hearts;</div>
+            </div>
+            <div class="el-right">
+                <div class="el-image-frame reveal">
+                    <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&q=80&auto=format" alt="Editorial portrait" loading="lazy">
+                </div>
+                <div class="el-image-caption reveal reveal-delay-1">The Birthday Girl</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PAGE 3 — FULL BLEED QUOTE
+         ========================================== -->
+    <section class="fullbleed-quote page-section" data-theme="dark">
+        <div class="fullbleed-quote-bg">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&q=70&auto=format" alt="Dark aesthetic background" loading="lazy">
+        </div>
+        <div class="fullbleed-quote-content">
+            <div class="fq-decorator reveal">&laquo;</div>
+            <p class="fq-text reveal reveal-delay-1">Справжня краса &mdash; це коли естетика зовнішня збігається з внутрішньою</p>
+            <div class="fq-line reveal reveal-delay-2"></div>
+            <span class="fq-author reveal reveal-delay-3">Birthday Mantra</span>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PAGE 4 — PHOTO STORY
+         ========================================== -->
+    <section class="photo-story page-section" data-theme="light">
+        <div class="ps-header">
+            <div class="ps-label reveal">Photo Story</div>
+            <h2 class="ps-title reveal reveal-delay-1">Моменти <em>натхнення</em></h2>
+            <p class="ps-subtitle reveal reveal-delay-2">Краса у кожній деталі</p>
+        </div>
+
+        <div class="ps-grid">
+            <div class="ps-item ps-item-1 reveal">
+                <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80&auto=format" alt="Beauty editorial 1" loading="lazy">
+                <div class="ps-item-overlay"><span>Beauty</span></div>
+            </div>
+            <div class="ps-item ps-item-2 reveal reveal-delay-1">
+                <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&q=80&auto=format" alt="Beauty editorial 2" loading="lazy">
+                <div class="ps-item-overlay"><span>Style</span></div>
+            </div>
+            <div class="ps-item ps-item-3 reveal reveal-delay-1">
+                <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=500&q=80&auto=format" alt="Beauty editorial 3" loading="lazy">
+            </div>
+            <div class="ps-item ps-item-4 reveal reveal-delay-2">
+                <img src="https://images.unsplash.com/photo-1490750967868-88aa4f44baee?w=500&q=80&auto=format" alt="Beauty editorial 4" loading="lazy">
+            </div>
+            <div class="ps-item ps-item-5 reveal reveal-delay-3">
+                <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=500&q=80&auto=format" alt="Beauty editorial 5" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PAGE 5 — WISHES
+         ========================================== -->
+    <section class="wishes-feature page-section" data-theme="light">
+        <div class="wf-container">
+            <div class="wf-header">
+                <div class="wf-header-line"></div>
+                <div class="wf-header-center">
+                    <div class="wf-header-label reveal">Birthday Wishes</div>
+                    <h2 class="wf-header-title reveal reveal-delay-1">Бажаю <em>тобі</em></h2>
+                </div>
+                <div class="wf-header-line"></div>
+            </div>
+
+            <div class="wf-grid reveal">
+                <div class="wf-card">
+                    <span class="wf-card-number">01</span>
+                    <span class="wf-card-symbol">&#10047;</span>
+                    <div class="wf-card-title">Краса</div>
+                    <div class="wf-card-text">Натхнення у кожній деталі та естетика у всьому</div>
+                </div>
+                <div class="wf-card">
+                    <span class="wf-card-number">02</span>
+                    <span class="wf-card-symbol">&#9829;</span>
+                    <div class="wf-card-title">Кохання</div>
+                    <div class="wf-card-text">Що надихає, дарує крила та наповнює серце</div>
+                </div>
+                <div class="wf-card">
+                    <span class="wf-card-number">03</span>
+                    <span class="wf-card-symbol">&#10022;</span>
+                    <div class="wf-card-title">Подорожі</div>
+                    <div class="wf-card-text">Яскраві пригоди та незабутні враження</div>
+                </div>
+                <div class="wf-card">
+                    <span class="wf-card-number">04</span>
+                    <span class="wf-card-symbol">&#9825;</span>
+                    <div class="wf-card-title">Гармонія</div>
+                    <div class="wf-card-text">Внутрішній спокій та баланс у всьому</div>
+                </div>
+                <div class="wf-card">
+                    <span class="wf-card-number">05</span>
+                    <span class="wf-card-symbol">&#10053;</span>
+                    <div class="wf-card-title">Стиль</div>
+                    <div class="wf-card-text">Який завжди підкреслює твою унікальність</div>
+                </div>
+                <div class="wf-card">
+                    <span class="wf-card-number">06</span>
+                    <span class="wf-card-symbol">&#9733;</span>
+                    <div class="wf-card-title">Мрії</div>
+                    <div class="wf-card-text">Здійснення усіх найзаповітніших бажань</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PAGE 6 — BEAUTY SECRETS
+         ========================================== -->
+    <section class="beauty-section page-section" data-theme="light">
+        <div class="beauty-left">
+            <img src="https://images.unsplash.com/photo-1515688594390-b649af70d282?w=800&q=80&auto=format" alt="Beauty editorial" loading="lazy">
+        </div>
+        <div class="beauty-right">
+            <div class="beauty-label reveal">Beauty Column</div>
+            <h2 class="beauty-title reveal reveal-delay-1">Рецепт <em>ідеального</em> дня</h2>
+            <p class="beauty-subtitle reveal reveal-delay-2">Складові щастя за версією редакції</p>
+
+            <ul class="beauty-tips">
+                <li class="beauty-tip reveal reveal-delay-1">
+                    <span class="beauty-tip-num">01</span>
+                    <div class="beauty-tip-content">
+                        <h4>Ранковий ритуал</h4>
+                        <p>Почати день з усмішки, теплого латте та улюбленої музики</p>
+                    </div>
+                </li>
+                <li class="beauty-tip reveal reveal-delay-2">
+                    <span class="beauty-tip-num">02</span>
+                    <div class="beauty-tip-content">
+                        <h4>Стильний образ</h4>
+                        <p>Обрати outfit, який підкреслює настрій та впевненість</p>
+                    </div>
+                </li>
+                <li class="beauty-tip reveal reveal-delay-3">
+                    <span class="beauty-tip-num">03</span>
+                    <div class="beauty-tip-content">
+                        <h4>Моменти радості</h4>
+                        <p>Провести час з тими, хто наповнює енергією та теплом</p>
+                    </div>
+                </li>
+                <li class="beauty-tip reveal reveal-delay-4">
+                    <span class="beauty-tip-num">04</span>
+                    <div class="beauty-tip-content">
+                        <h4>Вечірня магія</h4>
+                        <p>Загадати бажання та знати, що воно обов'язково здійсниться</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PAGE 7 — HOROSCOPE
+         ========================================== -->
+    <section class="horoscope page-section" data-theme="dark">
+        <div class="horo-stars" id="horoStars"></div>
+
+        <div class="horo-label reveal">Your Stars</div>
+        <div class="horo-symbol reveal reveal-delay-1">&#9811;</div>
+        <h2 class="horo-sign reveal reveal-delay-1">Риби</h2>
+        <div class="horo-date reveal reveal-delay-2">19 лютого &mdash; 20 березня</div>
+        <div class="horo-line reveal reveal-delay-2"></div>
+
+        <p class="horo-text reveal reveal-delay-3">
+            Зірки кажуть, що цей рік буде наповнений яскравими подіями, новими знайомствами та несподіваними подарунками долі. Твоя інтуїція &mdash; найкращий компас. Довіряй їй, і Всесвіт відкриє тобі всі двері.
+        </p>
+
+        <div class="horo-traits reveal reveal-delay-4">
+            <div class="horo-trait">
+                <span class="horo-trait-label">Стихія</span>
+                <span class="horo-trait-value">Вода</span>
+            </div>
+            <div class="horo-trait">
+                <span class="horo-trait-label">Камінь</span>
+                <span class="horo-trait-value">Аквамарин</span>
+            </div>
+            <div class="horo-trait">
+                <span class="horo-trait-label">Колір року</span>
+                <span class="horo-trait-value">Rose</span>
+            </div>
+            <div class="horo-trait">
+                <span class="horo-trait-label">Щасливе число</span>
+                <span class="horo-trait-value">22</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PAGE 8 — MAKE A WISH
+         ========================================== -->
+    <section class="wish-page page-section" data-theme="light">
+        <div class="wish-page-label reveal">The Final Page</div>
+        <h2 class="wish-page-title reveal reveal-delay-1">Загадай<br><em>бажання</em></h2>
+        <p class="wish-page-subtitle reveal reveal-delay-2">Закрий очі, зроби глибокий вдих і натисни</p>
+
+        <button class="btn reveal reveal-delay-3" onclick="celebrate()">Загадай бажання</button>
+
+        <div class="wish-page-footer reveal reveal-delay-4">
+            <p class="wish-page-quote">&laquo;Мода минає, стиль залишається&raquo;</p>
+            <span class="wish-page-cite">&mdash; Coco Chanel</span>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PAGE 9 — BACK COVER
+         ========================================== -->
+    <section class="back-cover page-section" data-theme="dark">
+        <div class="bc-monogram">K</div>
+        <div class="bc-content">
+            <div class="bc-logo reveal">KATYA</div>
+            <div class="bc-line reveal reveal-delay-1"></div>
+            <p class="bc-text reveal reveal-delay-2">Birthday Edition &middot; Issue N&deg;01</p>
+            <p class="bc-text reveal reveal-delay-2">22 February 2026</p>
+            <div class="bc-year reveal reveal-delay-3">Made with love &middot; MMXXVI</div>
+        </div>
+    </section>
 
     <script>
         // === Floating Petals ===
         (function createPetals() {
-            const colors = ['#D4A0A7', '#C48B91', '#B8977E', '#D4C4B0', '#E8DDD4'];
-            for (let i = 0; i < 12; i++) {
-                const petal = document.createElement('div');
+            var colors = ['#D4A0A7', '#C48B91', '#B8977E', '#D4C4B0', '#E8DDD4'];
+            for (var i = 0; i < 10; i++) {
+                var petal = document.createElement('div');
                 petal.className = 'petal';
-                const size = 8 + Math.random() * 14;
+                var size = 8 + Math.random() * 14;
                 petal.style.width = size + 'px';
                 petal.style.height = size + 'px';
                 petal.style.left = Math.random() * 100 + '%';
-                petal.style.animationDuration = (12 + Math.random() * 18) + 's';
-                petal.style.animationDelay = (Math.random() * 15) + 's';
-
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                petal.innerHTML = '<svg viewBox="0 0 20 20"><ellipse cx="10" cy="10" rx="10" ry="6" fill="' + color + '" opacity="0.35"/></svg>';
+                petal.style.animationDuration = (14 + Math.random() * 20) + 's';
+                petal.style.animationDelay = (Math.random() * 20) + 's';
+                var color = colors[Math.floor(Math.random() * colors.length)];
+                petal.innerHTML = '<svg viewBox="0 0 20 20"><ellipse cx="10" cy="10" rx="10" ry="6" fill="' + color + '" opacity="0.25"/></svg>';
                 document.body.appendChild(petal);
             }
         })();
 
-        // === Confetti (elegant version) ===
+        // === Scroll Reveal ===
+        (function initReveal() {
+            var reveals = document.querySelectorAll('.reveal');
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+            reveals.forEach(function(el) { observer.observe(el); });
+        })();
+
+        // === Page Navigation ===
+        (function initPageNav() {
+            var sections = document.querySelectorAll('.page-section');
+            var dots = document.querySelectorAll('.page-nav-dot');
+
+            dots.forEach(function(dot) {
+                dot.addEventListener('click', function() {
+                    var idx = parseInt(this.getAttribute('data-page'));
+                    sections[idx].scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            var navObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        var idx = Array.from(sections).indexOf(entry.target);
+                        dots.forEach(function(d, i) {
+                            d.classList.toggle('active', i === idx);
+                        });
+                    }
+                });
+            }, { threshold: 0.4 });
+
+            sections.forEach(function(s) { navObserver.observe(s); });
+        })();
+
+        // === Horoscope Stars ===
+        (function createStars() {
+            var container = document.getElementById('horoStars');
+            if (!container) return;
+            for (var i = 0; i < 60; i++) {
+                var star = document.createElement('div');
+                star.style.position = 'absolute';
+                star.style.width = (1 + Math.random() * 2) + 'px';
+                star.style.height = star.style.width;
+                star.style.background = '#FAF7F4';
+                star.style.borderRadius = '50%';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.opacity = (0.1 + Math.random() * 0.4).toString();
+                star.style.animation = 'starTwinkle ' + (2 + Math.random() * 4) + 's ease-in-out infinite';
+                star.style.animationDelay = (Math.random() * 3) + 's';
+                container.appendChild(star);
+            }
+
+            var style = document.createElement('style');
+            style.textContent = '@keyframes starTwinkle { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.6; } }';
+            document.head.appendChild(style);
+        })();
+
+        // === Confetti ===
         function celebrate() {
-            const canvas = document.getElementById('confettiCanvas');
-            const ctx = canvas.getContext('2d');
+            var canvas = document.getElementById('confettiCanvas');
+            var ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
 
-            const pieces = [];
-            const colors = ['#D4A0A7', '#C48B91', '#B8977E', '#D4C4B0', '#E8DDD4', '#F5EDE6', '#9B6B6B'];
+            var pieces = [];
+            var colors = ['#D4A0A7', '#C48B91', '#B8977E', '#D4C4B0', '#E8DDD4', '#F5EDE6', '#9B6B6B', '#A67178'];
 
-            for (let i = 0; i < 150; i++) {
+            for (var i = 0; i < 200; i++) {
                 pieces.push({
-                    x: canvas.width / 2 + (Math.random() - 0.5) * 300,
+                    x: canvas.width / 2 + (Math.random() - 0.5) * 400,
                     y: canvas.height / 2,
-                    vx: (Math.random() - 0.5) * 12,
-                    vy: -6 - Math.random() * 10,
-                    w: 4 + Math.random() * 5,
-                    h: 3 + Math.random() * 6,
+                    vx: (Math.random() - 0.5) * 14,
+                    vy: -8 - Math.random() * 12,
+                    w: 4 + Math.random() * 6,
+                    h: 3 + Math.random() * 7,
                     color: colors[Math.floor(Math.random() * colors.length)],
                     rotation: Math.random() * 360,
-                    rotationSpeed: (Math.random() - 0.5) * 8,
-                    gravity: 0.1 + Math.random() * 0.06,
+                    rotationSpeed: (Math.random() - 0.5) * 10,
+                    gravity: 0.1 + Math.random() * 0.07,
                     opacity: 1
                 });
             }
 
-            let frame = 0;
+            var frame = 0;
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                let alive = false;
+                var alive = false;
 
                 pieces.forEach(function(p) {
                     if (p.opacity <= 0) return;
                     alive = true;
-
                     p.vy += p.gravity;
                     p.x += p.vx;
                     p.y += p.vy;
                     p.vx *= 0.99;
                     p.rotation += p.rotationSpeed;
-
-                    if (frame > 60) p.opacity -= 0.012;
+                    if (frame > 60) p.opacity -= 0.01;
 
                     ctx.save();
                     ctx.globalAlpha = Math.max(0, p.opacity);
@@ -650,11 +1633,9 @@
                 if (alive) requestAnimationFrame(animate);
                 else ctx.clearRect(0, 0, canvas.width, canvas.height);
             }
-
             animate();
         }
 
-        // Resize canvas
         window.addEventListener('resize', function() {
             var canvas = document.getElementById('confettiCanvas');
             canvas.width = window.innerWidth;
