@@ -223,31 +223,56 @@
         .lb-grid {
             max-width: 1300px; margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-auto-rows: 200px;
-            gap: 12px;
+            grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: 80px;
+            gap: 10px;
         }
         .lb-item {
             overflow: hidden; position: relative; cursor: pointer;
+            border-radius: 4px;
         }
         .lb-item img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: transform .6s cubic-bezier(.25,0,.25,1), filter .4s;
-            filter: saturate(0.85);
+            width: 100%; height: 100%; object-fit: cover; object-position: top;
+            transition: transform .7s cubic-bezier(.25,0,.25,1), filter .5s;
+            filter: saturate(0.8);
         }
-        .lb-item:hover img { transform: scale(1.05); filter: saturate(1); }
+        .lb-item:hover img { transform: scale(1.04); filter: saturate(1.1); }
+        .lb-num {
+            position: absolute; top: 12px; left: 14px; z-index: 2;
+            font-family: var(--serif); font-size: 11px; font-weight: 300;
+            color: rgba(255,255,255,0.75);
+            text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+        }
+        .lb-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
+            padding: 40px 14px 14px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.5));
+            transform: translateY(100%);
+            transition: transform .4s cubic-bezier(.25,0,.25,1), opacity .4s;
+            opacity: 0;
+        }
+        .lb-item:hover .lb-overlay { transform: translateY(0); opacity: 1; }
+        .lb-cap {
+            font-family: var(--serif); font-size: 13px; font-weight: 400;
+            color: #fff; font-style: italic; letter-spacing: 0.5px;
+        }
+        .lb-hero .lb-overlay {
+            transform: translateY(0); opacity: 1; padding: 60px 20px 20px;
+        }
+        .lb-hero .lb-cap { font-size: 16px; }
+        .lb-hero .lb-num { font-size: 14px; }
 
-        /* Grid sizing — asymmetric masonry */
-        .lb-item:nth-child(1) { grid-column: span 2; grid-row: span 3; }
-        .lb-item:nth-child(2) { grid-column: span 1; grid-row: span 2; }
-        .lb-item:nth-child(3) { grid-column: span 1; grid-row: span 2; }
-        .lb-item:nth-child(4) { grid-column: span 1; grid-row: span 3; }
-        .lb-item:nth-child(5) { grid-column: span 1; grid-row: span 2; }
-        .lb-item:nth-child(6) { grid-column: span 1; grid-row: span 2; }
-        .lb-item:nth-child(7) { grid-column: span 1; grid-row: span 3; }
-        .lb-item:nth-child(8) { grid-column: span 1; grid-row: span 2; }
-        .lb-item:nth-child(9) { grid-column: span 1; grid-row: span 2; }
-        .lb-item:nth-child(10) { grid-column: span 1; grid-row: span 2; }
+        /* Grid layout — editorial bento */
+        .lb-item:nth-child(1)  { grid-column: 1 / 7;   grid-row: 1 / 7; }
+        .lb-item:nth-child(2)  { grid-column: 7 / 10;  grid-row: 1 / 4; }
+        .lb-item:nth-child(3)  { grid-column: 10 / 13; grid-row: 1 / 4; }
+        .lb-item:nth-child(4)  { grid-column: 7 / 10;  grid-row: 4 / 7; }
+        .lb-item:nth-child(5)  { grid-column: 10 / 13; grid-row: 4 / 7; }
+        .lb-item:nth-child(6)  { grid-column: 1 / 5;   grid-row: 7 / 11; }
+        .lb-item:nth-child(7)  { grid-column: 5 / 9;   grid-row: 7 / 11; }
+        .lb-item:nth-child(8)  { grid-column: 9 / 13;  grid-row: 7 / 11; }
+        .lb-item:nth-child(9)  { grid-column: 1 / 6;   grid-row: 11 / 15; }
+        .lb-item:nth-child(10) { grid-column: 6 / 13;  grid-row: 11 / 15; }
 
         /* ============================================
            5. HORIZONTAL GALLERY (5 landscape photos)
@@ -557,17 +582,17 @@
             .intro-photo { order: -1; }
             .intro-photo-frame { max-height: 420px; }
             .w-grid { grid-template-columns: repeat(2, 1fr); }
-            .lb-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; }
-            .lb-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
-            .lb-item:nth-child(2) { grid-column: span 1; grid-row: span 2; }
-            .lb-item:nth-child(3) { grid-column: span 1; grid-row: span 2; }
-            .lb-item:nth-child(4) { grid-column: span 1; grid-row: span 2; }
-            .lb-item:nth-child(5) { grid-column: span 1; grid-row: span 2; }
-            .lb-item:nth-child(6) { grid-column: span 2; grid-row: span 2; }
-            .lb-item:nth-child(7) { grid-column: span 1; grid-row: span 2; }
-            .lb-item:nth-child(8) { grid-column: span 1; grid-row: span 2; }
-            .lb-item:nth-child(9) { grid-column: span 1; grid-row: span 2; }
-            .lb-item:nth-child(10) { grid-column: span 1; grid-row: span 2; }
+            .lb-grid { grid-template-columns: repeat(6, 1fr); grid-auto-rows: 90px; }
+            .lb-item:nth-child(1)  { grid-column: 1 / 7;  grid-row: 1 / 4; }
+            .lb-item:nth-child(2)  { grid-column: 1 / 4;  grid-row: 4 / 7; }
+            .lb-item:nth-child(3)  { grid-column: 4 / 7;  grid-row: 4 / 7; }
+            .lb-item:nth-child(4)  { grid-column: 1 / 4;  grid-row: 7 / 10; }
+            .lb-item:nth-child(5)  { grid-column: 4 / 7;  grid-row: 7 / 10; }
+            .lb-item:nth-child(6)  { grid-column: 1 / 7;  grid-row: 10 / 13; }
+            .lb-item:nth-child(7)  { grid-column: 1 / 4;  grid-row: 13 / 16; }
+            .lb-item:nth-child(8)  { grid-column: 4 / 7;  grid-row: 13 / 16; }
+            .lb-item:nth-child(9)  { grid-column: 1 / 4;  grid-row: 16 / 19; }
+            .lb-item:nth-child(10) { grid-column: 4 / 7;  grid-row: 16 / 19; }
             .sf-trio { grid-template-columns: 1fr; }
             .sf-trio-item { aspect-ratio: 16/9; }
             .cover-bottom { flex-direction: column; gap: 20px; align-items: center; }
@@ -582,8 +607,11 @@
             .cover-hints { display: none; }
             .intro { padding: 60px 20px; }
             .lookbook { padding: 60px 20px; }
-            .lb-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+            .lb-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: auto; gap: 8px; }
             .lb-item, .lb-item:nth-child(n) { grid-column: span 1; grid-row: span 1; aspect-ratio: 3/4; }
+            .lb-item:nth-child(1) { grid-column: span 2; aspect-ratio: 4/5; }
+            .lb-item:nth-child(6) { grid-column: span 2; aspect-ratio: 16/10; }
+            .lb-overlay { transform: translateY(0) !important; opacity: 1 !important; }
             .hgallery { padding: 40px 0; }
             .hgallery-item { width: 85vw; min-width: 280px; }
             .style-file { padding: 60px 20px; }
@@ -703,35 +731,55 @@
         </div>
 
         <div class="lb-grid">
-            <div class="lb-item reveal">
+            <div class="lb-item lb-hero reveal">
                 <img src="Photo2/hf_20260222_111558_2bc2f7a7-82fb-4027-8c91-c0507ed4db31.jpeg" alt="Editorial look" loading="lazy">
+                <span class="lb-num">01</span>
+                <div class="lb-overlay"><span class="lb-cap">It Girl</span></div>
             </div>
             <div class="lb-item reveal reveal-d1">
                 <img src="Photo2/hf_20260222_111602_3a31fcce-7674-4d1d-81d0-2e2c40def292.jpeg" alt="Luxe emerald" loading="lazy">
+                <span class="lb-num">02</span>
+                <div class="lb-overlay"><span class="lb-cap">Emerald Reign</span></div>
             </div>
             <div class="lb-item reveal reveal-d2">
                 <img src="Photo2/hf_20260222_105002_a1b6733d-da0c-4c8a-9bd9-fcff7b3f74fc.jpeg" alt="Blue power suit" loading="lazy">
+                <span class="lb-num">03</span>
+                <div class="lb-overlay"><span class="lb-cap">Power Play</span></div>
             </div>
             <div class="lb-item reveal reveal-d1">
                 <img src="Photo2/hf_20260222_111817_d1a6c8e6-a64b-4e82-9c9d-baf121a8ccd7.jpeg" alt="Peach elegance" loading="lazy">
+                <span class="lb-num">04</span>
+                <div class="lb-overlay"><span class="lb-cap">Peach Season</span></div>
             </div>
             <div class="lb-item reveal reveal-d2">
                 <img src="Photo2/hf_20260222_104958_498dd7cd-1994-4250-8298-1b957904110c.jpeg" alt="Cream lace" loading="lazy">
+                <span class="lb-num">05</span>
+                <div class="lb-overlay"><span class="lb-cap">Lace &amp; Grace</span></div>
             </div>
             <div class="lb-item reveal reveal-d1">
                 <img src="Photo2/hf_20260222_111942_1b6dc709-30e6-4c67-a7d0-0c187cd0c588.jpeg" alt="Edgy leather" loading="lazy">
+                <span class="lb-num">06</span>
+                <div class="lb-overlay"><span class="lb-cap">Edge</span></div>
             </div>
             <div class="lb-item reveal reveal-d2">
                 <img src="Photo2/hf_20260222_111941_2a686197-7caa-4979-8e64-1ae6bea1791c.jpeg" alt="Navy minimalist" loading="lazy">
+                <span class="lb-num">07</span>
+                <div class="lb-overlay"><span class="lb-cap">After Dark</span></div>
             </div>
             <div class="lb-item reveal reveal-d1">
                 <img src="Photo2/hf_20260222_104712_f2fc193c-6401-487d-b69e-b57205b902e7.jpeg" alt="Art gallery" loading="lazy">
+                <span class="lb-num">08</span>
+                <div class="lb-overlay"><span class="lb-cap">Gallery Girl</span></div>
             </div>
             <div class="lb-item reveal reveal-d2">
                 <img src="Photo2/hf_20260222_111212_ed79ef23-62e4-4208-8fd4-b1e9852ba9c4.jpeg" alt="Vogue stripes" loading="lazy">
+                <span class="lb-num">09</span>
+                <div class="lb-overlay"><span class="lb-cap">&Agrave; la Vogue</span></div>
             </div>
             <div class="lb-item reveal reveal-d1">
                 <img src="Photo2/hf_20260222_104533_c6db04fe-d658-4ff3-a6a3-5ec4c6a6b384.jpeg" alt="Candid portrait" loading="lazy">
+                <span class="lb-num">10</span>
+                <div class="lb-overlay"><span class="lb-cap">Off Duty</span></div>
             </div>
         </div>
     </section>
